@@ -1172,14 +1172,14 @@ L.OnEvent_XP = function(f, event)
 				x2 = x5
 				x3 = x6
 				f.XP.Dot1: ClearAllPoints()
-				f.XP.Dot1: SetPoint("BOTTOMLEFT", f.XP[9],"BOTTOMRIGHT", 0,-3)
+				f.XP.Dot1: SetPoint("BOTTOMLEFT", f.XP[9],"BOTTOMRIGHT", -6,-2)
 				f.XP.Dot1: Show()
 			elseif x1 <= 0 and x2 > 0 then
 				x1 = x2
 				x2 = x3
 				x3 = x5
 				f.XP.Dot1: ClearAllPoints()
-				f.XP.Dot1: SetPoint("BOTTOMLEFT", f.XP[8],"BOTTOMRIGHT", 0,-3)
+				f.XP.Dot1: SetPoint("BOTTOMLEFT", f.XP[8],"BOTTOMRIGHT", -6,-2)
 				f.XP.Dot1: Show()
 			else
 				f.XP.Dot1: Hide()
@@ -1241,14 +1241,14 @@ L.OnEvent_XP = function(f, event)
 				m2 = m5
 				m3 = m6
 				f.XP.Dot2: ClearAllPoints()
-				f.XP.Dot2: SetPoint("BOTTOMLEFT", f.XP[4],"BOTTOMRIGHT", 0,-3)
+				f.XP.Dot2: SetPoint("BOTTOMLEFT", f.XP[4],"BOTTOMRIGHT", -6,-2)
 				f.XP.Dot2: Show()
 			elseif m1 <= 0 and m2 > 0 then
 				m1 = m2
 				m2 = m3
 				m3 = m5
 				f.XP.Dot2: ClearAllPoints()
-				f.XP.Dot2: SetPoint("BOTTOMLEFT", f.XP[3],"BOTTOMRIGHT", 0,-3)
+				f.XP.Dot2: SetPoint("BOTTOMLEFT", f.XP[3],"BOTTOMRIGHT", -6,-2)
 				f.XP.Dot2: Show()
 			else
 				f.XP.Dot2: Hide()
@@ -1285,7 +1285,7 @@ L.XP = function(f)
 	for i = 1,9 do
 		f.XP[i] =  f.XP:CreateTexture(nil, "ARTWORK")
 		f.XP[i]: SetVertexColor(unpack(C.Color.White))
-		f.XP[i]: SetAlpha(0.9)
+		f.XP[i]: SetAlpha(1)
 		f.XP[i]: SetTexture(F.Media.."XP_Num")
 		f.XP[i]: SetSize(Num5[0][1], Num5[0][2])
 		f.XP[i]: SetTexCoord(Num5[0][3],Num5[0][4], Num5[0][5],Num5[0][6])
@@ -1299,10 +1299,10 @@ L.XP = function(f)
 	f.XP[5]: SetTexCoord(Num5["/"][3],Num5["/"][4], Num5["/"][5],Num5["/"][6])
 	
 	f.XP.Dot1 = f.XP:CreateTexture(nil, "ARTWORK")
-	create_Texture(f.XP.Dot1, "XP_Num", Num5["."][1],Num5["."][2], Num5["."][3],Num5["."][4],Num5["."][5],Num5["."][6], C.Color.White,1, "BOTTOMLEFT",f.XP[3],"BOTTOMRIGHT",0,-3)
+	create_Texture(f.XP.Dot1, "XP_Num", Num5["."][1],Num5["."][2], Num5["."][3],Num5["."][4],Num5["."][5],Num5["."][6], C.Color.White,1, "BOTTOMLEFT",f.XP[2],"BOTTOMRIGHT",-6,-2)
 	
 	f.XP.Dot2 = f.XP:CreateTexture(nil, "ARTWORK")
-	create_Texture(f.XP.Dot2, "XP_Num", Num5["."][1],Num5["."][2], Num5["."][3],Num5["."][4],Num5["."][5],Num5["."][6], C.Color.White,1, "BOTTOMLEFT",f.XP[8],"BOTTOMRIGHT",0,-3)
+	create_Texture(f.XP.Dot2, "XP_Num", Num5["."][1],Num5["."][2], Num5["."][3],Num5["."][4],Num5["."][5],Num5["."][6], C.Color.White,1, "BOTTOMLEFT",f.XP[7],"BOTTOMRIGHT",-6,-2)
 	
 	--f.XP.XP = f.XP:CreateTexture(nil, "ARTWORK")
 	--create_Texture(f.XP.XP, "XP_Num", Num5["X"][1],Num5["X"][2], Num5["X"][3],Num5["X"][4],Num5["X"][5],Num5["X"][6], C.Color.White,1, "BOTTOMRIGHT",f.XP[9],"BOTTOMLEFT",0,0)
