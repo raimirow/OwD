@@ -51,6 +51,7 @@ local hide_Stuff = function()
 	"MiniMapVoiceChatFrame",
 	"MiniMapWorldMapButton",
 	"MinimapZoneTextButton",
+	"MiniMapTrackingButton",
 	--"MiniMapMailFrame",
 	"MiniMapMailBorder",
 	"MiniMapInstanceDifficulty",

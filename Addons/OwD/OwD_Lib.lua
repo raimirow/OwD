@@ -213,30 +213,33 @@ L.Feedback = function(f)
 	f.Feedback.y_offset = 0
 	f.Feedback.dir = -1
 	
-	--f.Feedback: RegisterEvent("UNIT_HEALTH_FREQUENT"）
+	f.Feedback: RegisterEvent("UNIT_HEALTH_FREQUENT")
 	f.Feedback: RegisterEvent("UNIT_COMBAT")
 	f.Feedback: SetScript("OnEvent", function(self,event,arg1,arg2,arg3,arg4,arg5) --("unitID", "action", "descriptor", damage, damageType)
-		if arg1 == "player" then
-			if arg2 == "WOUND" then
-				if arg4 ~= 0 then
-					local maxHealth = UnitHealthMax("player")
-					local d = floor(abs(arg4/maxHealth)*100)/100
-					if d > 0.01 then
-						f.Feedback.x_offset = max(f.Feedback.x_offset, d*34)
-						f.Feedback:SetScript("OnUpdate", function(self,elapsed)
-							local step = floor(1/(GetFramerate())*1e3)/1e3
-							if f.Feedback.x * f.Feedback.dir < f.Feedback.x_offset then
-								f.Feedback.x = f.Feedback.x + 13*step * f.Feedback.x_offset * f.Feedback.dir
-							else
-								f.Feedback.dir = (0 - f.Feedback.dir)
-								f.Feedback.x_offset = f.Feedback.x_offset/2
-							end
-							f.Player: SetPoint("BOTTOMLEFT", f, "CENTER", OwD_DB.Pos.Player.x+f.Feedback.x, OwD_DB.Pos.Player.y+0.7*f.Feedback.x)
-							f.Right: SetPoint("BOTTOMRIGHT", f, "CENTER", -OwD_DB.Pos.Player.x-f.Feedback.x, OwD_DB.Pos.Player.y+0.7*f.Feedback.x)
-							if abs(f.Feedback.x_offset) <= 1 then
-								f.Feedback:SetScript("OnUpdate", nil)
-							end
-						end)
+		if event == "UNIT_COMBAT" then
+			if arg1 == "player" then
+				if arg2 == "WOUND" then
+					if arg4 ~= 0 then
+						local maxHealth = UnitHealthMax("player")
+						local d = floor(abs(arg4/maxHealth)*100)/100
+						if d > 0.001 then
+							f.Feedback.x_offset = max(f.Feedback.x_offset, d*34)
+							f.Feedback:SetScript("OnUpdate", function(self,elapsed)
+								local step = floor(1/(GetFramerate())*1e3)/1e3
+								if f.Feedback.x * f.Feedback.dir < f.Feedback.x_offset then
+									f.Feedback.x = f.Feedback.x + 15*step * f.Feedback.x_offset * f.Feedback.dir
+								else
+									f.Feedback.dir = (0 - f.Feedback.dir)
+									f.Feedback.x_offset = f.Feedback.x_offset/2
+								end
+								f.Player: SetPoint("BOTTOMLEFT", f, "CENTER", OwD_DB.Pos.Player.x+f.Feedback.x, OwD_DB.Pos.Player.y+0.7*f.Feedback.x)
+								f.Right: SetPoint("BOTTOMRIGHT", f, "CENTER", -OwD_DB.Pos.Player.x-f.Feedback.x, OwD_DB.Pos.Player.y+0.7*f.Feedback.x)
+								f.FCS: SetPoint("CENTER", f, "CENTER", 0, OwD_DB.Pos.FCS.y+0.6*f.Feedback.x)
+								if abs(f.Feedback.x_offset) <= 1 then
+									f.Feedback:SetScript("OnUpdate", nil)
+								end
+							end)
+						end
 					end
 				end
 			end

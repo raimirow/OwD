@@ -891,9 +891,11 @@ local create_Point = function(f)
 				f.Point.pMax = UnitPowerMax("player", SPELL_POWER_CHI)
 				update_Point(f, f.Point.pMax, f.Point.p)
 			elseif f.Point.classFileName == "DRUID" then------------------------------------------DRUID
-				self: UnregisterEvent("UNIT_AURA")
-				self: UnregisterEvent("SPELL_UPDATE_CHARGES")
+				--self: UnregisterEvent("UNIT_AURA")
+				--self: UnregisterEvent("SPELL_UPDATE_CHARGES")
+				f.Point.Remain = 0
 				if f.Point.form == CAT_FORM then -->Feral
+					--self: RegisterEvent("UNIT_AURA")
 					f.Point.pMax = 5
 					f.Point.combo =  GetComboPoints("player", "target")
 					update_Point(f, f.Point.pMax, f.Point.combo)
@@ -901,7 +903,7 @@ local create_Point = function(f)
 					f.Point.Remain = max(f.Point.Expires - GetTime(), 0)
 				elseif f.Point.form == BEAR_FORM then
 					if f.Point.specID == 3 then -->Guardian
-						self: RegisterEvent("UNIT_AURA")
+						--self: RegisterEvent("UNIT_AURA")
 						f.Point.p, f.Point.Expires, f.Point.Duration = update_Aura("target", 33745, "HARMFUL")--割伤
 						local name = GetSpellInfo(80313) -->粉碎
 						if GetSpellInfo(name) then
@@ -981,6 +983,7 @@ end
 
 L.OnUpdate_FCS = function(f, elapsed)
 	if f.Point.classFileName == "DRUID" then
+		f.Point.Indicator: Hide()
 		if  UnitInVehicle("player") and f.Point.combo and f.Point.combo > 0 then
 			--update_Point(f, pMax, combo)
 		elseif f.Point.form == CAT_FORM then -->Feral
@@ -989,8 +992,6 @@ L.OnUpdate_FCS = function(f, elapsed)
 					f.Point.Remain = max(f.Point.Remain - elapsed, 0)
 					F.RotateTexture(f.Point.Indicator, 360*f.Point.Remain/(f.Point.Duration+F.Debug))
 					f.Point.Indicator: Show()
-				else
-					f.Point.Indicator: Hide()
 				end
 			end
 		elseif f.Point.form == BEAR_FORM then
@@ -999,8 +1000,6 @@ L.OnUpdate_FCS = function(f, elapsed)
 					f.Point.Remain = max(f.Point.Remain - elapsed, 0)
 					F.RotateTexture(f.Point.Indicator, 360*f.Point.Remain/(f.Point.Duration+F.Debug))
 					f.Point.Indicator: Show()
-				else
-					f.Point.Indicator: Hide()
 				end
 			end
 		elseif f.Point.specID == 1 then -->Balance
@@ -1008,8 +1007,6 @@ L.OnUpdate_FCS = function(f, elapsed)
 				f.Point.Remain = max(f.Point.Duration - (GetTime()-f.Point.Start), 0)
 				F.RotateTexture(f.Point.Indicator, 360*f.Point.Remain/(f.Point.Duration+F.Debug))
 				f.Point.Indicator: Show()
-			else
-				f.Point.Indicator: Hide()
 			end
 		end
 	
