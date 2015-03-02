@@ -463,6 +463,12 @@ L.create_Castbar = function(f, point_to, u)
 		f.Castbar.Time[3]: SetPoint("BOTTOMRIGHT", f.Castbar.Time[4], "BOTTOMLEFT", 0,0)
 		f.Castbar.Time[2]: SetPoint("BOTTOMRIGHT", f.Castbar.Time[3], "BOTTOMLEFT", 0,0)
 		f.Castbar.Time[1]: SetPoint("BOTTOMRIGHT", f.Castbar.Time[2], "BOTTOMLEFT", 0,0)
+	elseif u == "focus" then
+		f.Castbar.Time[1]: SetPoint("BOTTOMLEFT", f.Castbar, "LEFT", 20,6)
+		f.Castbar.Time[2]: SetPoint("BOTTOMLEFT", f.Castbar.Time[1], "BOTTOMRIGHT", 0,0)
+		f.Castbar.Time[3]: SetPoint("BOTTOMLEFT", f.Castbar.Time[2], "BOTTOMRIGHT", 0,0)
+		f.Castbar.Time[4]: SetPoint("BOTTOMLEFT", f.Castbar.Time[3], "BOTTOMRIGHT", 0,0)
+		f.Castbar.Time[5]: SetPoint("BOTTOMLEFT", f.Castbar.Time[4], "BOTTOMRIGHT", 0,0)
 	end
 	
 --> Text
@@ -470,6 +476,11 @@ L.create_Castbar = function(f, point_to, u)
 		f.Castbar.Text = L.create_Fontstring(f.Castbar, C.Font.Name, 12, nil)--"OUTLINE MONOCHROME"  "THINOUTLINE MONOCHROME"
 		--f.Castbar.Text: SetWidth(120)
 		f.Castbar.Text: SetPoint("BOTTOMRIGHT", f.Castbar, "RIGHT", -16,0)
+		f.Castbar.Text: SetText("测试：施法条")
+	elseif u == "focus" then
+		f.Castbar.Text = L.create_Fontstring(f.Castbar, C.Font.Name, 12, nil)--"OUTLINE MONOCHROME"  "THINOUTLINE MONOCHROME"
+		--f.Castbar.Text: SetWidth(120)
+		f.Castbar.Text: SetPoint("TOPLEFT", f.Castbar, "LEFT", 16,0)
 		f.Castbar.Text: SetText("测试：施法条")
 	end
 --> SafeZone
