@@ -1117,7 +1117,7 @@ L.OnEvent_XP = function(f, event)
 			x1 = floor(XP/1000)
 			x2 = floor(XP/100-floor(XP/1000)*10)
 			x3 = floor(XP/10-floor(XP/100)*10)
-			x4 = floor(XP-floor(XP/10)*10)
+			x4 = floor(XP-floor(XP/10)*10+0.5)
 		
 			if x1 <= 0 then
 				f.XP[9]: SetAlpha(0.3)
@@ -1158,8 +1158,8 @@ L.OnEvent_XP = function(f, event)
 			x2 = floor(XP/10-floor(XP/100)*10)
 			x3 = floor(XP-floor(XP/10)*10)
 			x5 = floor(XP*10-floor(XP)*10)
-			x6 = floor(XP*100-floor(XP*10)*10)
-		
+			x6 = floor(XP*100-floor(XP*10)*10+0.5)
+			
 			f.XP[9]: SetAlpha(1)
 			f.XP[8]: SetAlpha(1)
 			f.XP[7]: SetAlpha(1)
@@ -1187,7 +1187,7 @@ L.OnEvent_XP = function(f, event)
 			m1 = floor(maxXP/1000)
 			m2 = floor(maxXP/100-floor(maxXP/1000)*10)
 			m3 = floor(maxXP/10-floor(maxXP/100)*10)
-			m4 = floor(maxXP-floor(maxXP/10)*10)
+			m4 = floor(maxXP-floor(maxXP/10)*10+0.5)
 		
 			if m1 <= 0 then
 				f.XP[4]: SetAlpha(0.3)
@@ -1227,7 +1227,7 @@ L.OnEvent_XP = function(f, event)
 			m2 = floor(maxXP/10-floor(maxXP/100)*10)
 			m3 = floor(maxXP-floor(maxXP/10)*10)
 			m5 = floor(maxXP*10-floor(maxXP)*10)
-			m6 = floor(maxXP*100-floor(maxXP*10)*10)
+			m6 = floor(maxXP*100-floor(maxXP*10)*10+0.5)
 		
 			f.XP[4]: SetAlpha(1)
 			f.XP[3]: SetAlpha(1)

@@ -583,7 +583,14 @@ local onUpdate_Aura = function(f)
 					end
 				elseif f.Icon[i].Type == "S|P" then
 					f.Icon[i].Remain1 = max(f.Icon[i].Remain1 - elapsed, 0)
-					if f.Icon[i].CD <= 1 then
+					if f.Icon[i].Remain1 > 0 then
+						f.Icon[i].Bar: SetVertexColor(f.Icon[i].Color[1],f.Icon[i].Color[2],f.Icon[i].Color[3])
+						f.Icon[i].Bar: SetAlpha(Alp1)
+						resize_Icon1(f, i, f.Icon[i].Remain1/(f.Icon[i].Duration+F.Debug))
+						f.Icon[i].Num: Show()
+						f.Icon[i].Tex: Hide()
+						update_Num(f, i, f.Icon[i].Remain1, true)
+					elseif f.Icon[i].CD <= 1 then
 						---if UnitAffectingCombat("player") then
 							--f.Icon[i].Bar: SetVertexColor(f.Icon[i].Color[1],f.Icon[i].Color[2],f.Icon[i].Color[3])
 						--else
@@ -595,14 +602,7 @@ local onUpdate_Aura = function(f)
 						f.Icon[i].Tex: Show()
 					else
 						f.Icon[i].Remain2 = f.Icon[i].CD - (GetTime()-f.Icon[i].Start)
-						if f.Icon[i].Remain1 > 0 then
-							f.Icon[i].Bar: SetVertexColor(f.Icon[i].Color[1],f.Icon[i].Color[2],f.Icon[i].Color[3])
-							f.Icon[i].Bar: SetAlpha(Alp1)
-							resize_Icon1(f, i, f.Icon[i].Remain1/(f.Icon[i].Duration+F.Debug))
-							f.Icon[i].Num: Show()
-							f.Icon[i].Tex: Hide()
-							update_Num(f, i, f.Icon[i].Remain1, true)
-						elseif f.Icon[i].Remain2 > 0 then
+						if f.Icon[i].Remain2 > 0 then
 							f.Icon[i].Bar: SetVertexColor(unpack(C.Color.White))
 							f.Icon[i].Bar: SetAlpha(0.4)
 							resize_Icon2(f, i, f.Icon[i].Remain2/(f.Icon[i].CD+F.Debug))

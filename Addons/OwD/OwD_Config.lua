@@ -412,7 +412,7 @@ L.Config_Frame = function(f)
 			OwD_DB.Hide_Blizzard = true
 			f.Config[4].Border:Hide()
 			L.Disable_Blizzard()
-			ReloadUI()
+			--ReloadUI()
 		end
 	end)
 	
