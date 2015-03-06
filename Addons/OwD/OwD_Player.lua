@@ -105,6 +105,36 @@ local Num5 = {
 	["/"] =	{15,16, 219/256,234/256, 8/32,24/32},
 }
 
+local HP_Coord = {
+	[11] =	{32,18,   0/512, 32/512, 7/32,25/32},
+	[10] =	{32,18,  32/512, 64/512, 7/32,25/32},
+	[9] =	{32,18,  64/512, 96/512, 7/32,25/32},
+	[8] =	{32,18,  96/512,128/512, 7/32,25/32},
+	[7] =	{32,18, 128/512,160/512, 7/32,25/32},
+	[6] =	{32,18, 160/512,192/512, 7/32,25/32},
+	[5] =	{32,18, 192/512,224/512, 7/32,25/32},
+	[4] =	{32,18, 224/512,256/512, 7/32,25/32},
+	[3] =	{32,18, 256/512,288/512, 7/32,25/32},
+	[2] =	{32,18, 288/512,320/512, 7/32,25/32},
+	[1] =	{32,18, 320/512,352/512, 7/32,25/32},
+	[0] =	{32,18, 352/512,384/512, 7/32,25/32},
+}
+
+local PP_Coord = {
+	[11] =	{32,18,   0/512, 32/512, 7/32,25/32},
+	[10] =	{32,18,  32/512, 64/512, 7/32,25/32},
+	[9] =	{32,18,  64/512, 96/512, 7/32,25/32},
+	[8] =	{32,18,  96/512,128/512, 7/32,25/32},
+	[7] =	{32,18, 128/512,160/512, 7/32,25/32},
+	[6] =	{32,18, 160/512,192/512, 7/32,25/32},
+	[5] =	{32,18, 192/512,224/512, 7/32,25/32},
+	[4] =	{32,18, 224/512,256/512, 7/32,25/32},
+	[3] =	{32,18, 256/512,288/512, 7/32,25/32},
+	[2] =	{32,18, 288/512,320/512, 7/32,25/32},
+	[1] =	{32,18, 320/512,352/512, 7/32,25/32},
+	[0] =	{32,18, 352/512,384/512, 7/32,25/32},
+}
+
 local create_Texture = function(f, texture, x,y, x1,x2,y1,y2, color,a, p1,p2,p3,p4,p5)
 	f: SetTexture(F.Media..texture)
 	f: SetSize(x,y)
@@ -121,7 +151,7 @@ local create_Bar = function(f, texture, x,y, x1,x2, y1,y2)
 	f.Bar: SetVertexColor(unpack(C.Color.White))
 	f.Bar: SetSize(x,y)
 	f.Bar: SetTexCoord(x1,x2, y1,y2)
-	f.Bar: SetAlpha(0.9)
+	f.Bar: SetAlpha(0)
 	
 	f.BarGloss = f:CreateTexture(nil, "BORDER")
 	f.BarGloss: SetTexture(F.Media..texture.."_Gloss")
@@ -148,6 +178,21 @@ local create_Health = function(f)
 	L.init_Smooth(f.Health)
 	
 	create_Bar(f.Health, "Player_HealthBar", 203,28, 27/256,230/256, 2/32,30/32)
+	
+	for i = 1,8 do
+		f.Health[i] = f:CreateTexture(nil, "ARTWORK")
+		f.Health[i]: SetTexture(F.Media.."Player_HealthBars")
+		f.Health[i]: SetSize(HP_Coord[11][1],HP_Coord[11][2])
+		f.Health[i]: SetTexCoord(HP_Coord[11][3],HP_Coord[11][4], HP_Coord[11][5],HP_Coord[11][6])
+		f.Health[i]: SetVertexColor(unpack(C.Color.White))
+		f.Health[i]: SetAlpha(0.9)
+		if i == 1 then
+			f.Health[i]: SetPoint("BOTTOMLEFT", f.Health, "BOTTOMLEFT", -2,-2)
+		else
+			f.Health[i]: SetPoint("BOTTOMLEFT", f.Health[i-1], "BOTTOMLEFT", 25,2)
+		end
+	end
+	
 end
 
 local create_Power = function(f)
@@ -157,7 +202,21 @@ local create_Power = function(f)
 	
 	L.init_Smooth(f.Power)
 	
-	create_Bar(f.Power, "Player_PowerBar", 202,24, 27/256,229/256, 4/32,28/32)	
+	create_Bar(f.Power, "Player_PowerBar", 202,24, 27/256,229/256, 4/32,28/32)
+	
+	for i = 1,8 do
+		f.Power[i] = f:CreateTexture(nil, "ARTWORK")
+		f.Power[i]: SetTexture(F.Media.."Player_PowerBars")
+		f.Power[i]: SetSize(PP_Coord[11][1],PP_Coord[11][2])
+		f.Power[i]: SetTexCoord(PP_Coord[11][3],PP_Coord[11][4], PP_Coord[11][5],PP_Coord[11][6])
+		f.Power[i]: SetVertexColor(unpack(C.Color.White))
+		f.Power[i]: SetAlpha(0.9)
+		if i == 1 then
+			f.Power[i]: SetPoint("BOTTOMLEFT", f.Power, "BOTTOMLEFT", -3,-4)
+		else
+			f.Power[i]: SetPoint("BOTTOMLEFT", f.Power[i-1], "BOTTOMLEFT", 25,2)
+		end
+	end
 end
 
 local create_Portrait = function(f)
@@ -380,12 +439,41 @@ L.OnEvent_Player = function(f, event)
 end
 
 L.OnUpdate_Player = function(f)
+	local d1,d2, d3,d4
 	
-	f.Health.Bar: SetSize(203*f.Health.Cur+F.Debug, 28)
-	f.Health.Bar: SetTexCoord(27/256,(27+203*f.Health.Cur+F.Debug)/256, 2/32,30/32)
+	d1 = f.Health.Cur*8 or 0
+	for i = 1,8 do
+		if d1 >= i then
+			f.Health[i]: SetTexCoord(HP_Coord[11][3],HP_Coord[11][4], HP_Coord[11][5],HP_Coord[11][6])
+			f.Health[i]: Show()
+		elseif d1 < i and (d1+1) >= i then
+			d2 = floor((d1 + 1 - i) * 11 + 0.5)
+			f.Health[i]: SetTexCoord(HP_Coord[d2][3],HP_Coord[d2][4], HP_Coord[d2][5],HP_Coord[d2][6])
+			f.Health[i]: Show()
+		else
+			f.Health[i]: Hide()
+		end
+	end
 	
-	f.Power.Bar: SetSize(202*f.Power.Cur+F.Debug, 24)
-	f.Power.Bar: SetTexCoord(27/256,(27+202*f.Power.Cur+F.Debug)/256, 4/32,28/32)
+	d3 = f.Power.Cur*8 or 0
+	for i = 1,8 do
+		if d3 >= i then
+			f.Power[i]: SetTexCoord(PP_Coord[11][3],PP_Coord[11][4], PP_Coord[11][5],PP_Coord[11][6])
+			f.Power[i]: Show()
+		elseif d3 < i and (d3+1) >= i then
+			d4 = floor((d3 + 1 - i) * 11 + 0.5)
+			f.Power[i]: SetTexCoord(PP_Coord[d4][3],PP_Coord[d4][4], PP_Coord[d4][5],PP_Coord[d4][6])
+			f.Power[i]: Show()
+		else
+			f.Power[i]: Hide()
+		end
+	end
+	
+	--f.Health.Bar: SetSize(203*f.Health.Cur+F.Debug, 28)
+	--f.Health.Bar: SetTexCoord(27/256,(27+203*f.Health.Cur+F.Debug)/256, 2/32,30/32)
+	
+	--f.Power.Bar: SetSize(202*f.Power.Cur+F.Debug, 24)
+	--f.Power.Bar: SetTexCoord(27/256,(27+202*f.Power.Cur+F.Debug)/256, 4/32,28/32)
 	
 	local h,h1,h2,h3,h4,h5,h6, p,p1,p2,p3,p4,p5,p6
 	h = f.Health.Cur * f.Health.Max
