@@ -312,7 +312,6 @@ local update_Threat = function(f, unit)
 	f.Threat[2]: SetTexCoord(Num1[ph2][3],Num1[ph2][4], Num1[ph2][5],Num1[ph2][6])
 	f.Threat[3]: SetSize(Num1[ph3][1], Num1[ph3][2])
 	f.Threat[3]: SetTexCoord(Num1[ph3][3],Num1[ph3][4], Num1[ph3][5],Num1[ph3][6])
-	
 end
 
 L.OnEvent_Target = function(f, event)

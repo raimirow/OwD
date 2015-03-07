@@ -82,7 +82,7 @@ local onEvent_OwD = function(f)
 		
 		L.OnShow_Castbar(f, event)
 		
-		L.init_pos_Frame(f, event, arg1)
+		--L.init_pos_Frame(f, event, arg1)
 		--L.OnEvent_Unit(f, event)
 	end)
 end
@@ -115,7 +115,7 @@ local onUpdate_OwD = function(f)
 		
 		Smooth_Update(f.FCS.Point.Indicator)
 	
-		L.OnUpdate_Player(f.Player)
+		L.OnUpdate_Player(f.Player, elapsed)
 		L.OnUpdate_Pet(f.Pet)
 		L.OnUpdate_Target(f.Target)
 		L.OnUpdate_ToT(f.ToT)

@@ -121,7 +121,7 @@ AuraFilter["MAGE"] = {
 	[3] = { -->冰霜
 		[1] = {
 			[1] = {"112948", "T", C.Color.Red, "OW_Blink", "寒冰炸弹"},
-			[2] = {"113092", "S", C.Color.Yellow2, "OW_ConcussiveBlast", "寒冰新星"},
+			[2] = {"157997", "S", C.Color.Yellow2, "OW_ConcussiveBlast", "寒冰新星"},
 		},
 		[2] = {"44544", "P", C.Color.Blue2, "OW_JumpJet", "寒冰指"},
 		[3] = {"57761", "P", C.Color.Blue2, "OW_Charge", "冰冷智慧"},
@@ -793,7 +793,7 @@ L.Right = function(f)
 	f.Right = CreateFrame("Frame", nil, f)
 	f.Right: SetSize(29,44)
 	--f.Right: SetPoint("BOTTOMRIGHT", f, "CENTER", 580, -320)
-	f.Right: SetPoint("BOTTOMRIGHT", f, "CENTER", -OwD_DB.Pos.Player.x, OwD_DB.Pos.Player.y)
+	--f.Right: SetPoint("BOTTOMRIGHT", f, "CENTER", -OwD_DB.Pos.Player.x, OwD_DB.Pos.Player.y)
 	
 	f.Border = f:CreateTexture(nil, "ARTWORK")
 	create_Texture(f.Border, "Icon_Border_Right", 29,58, 1/32,30/32,3/64,61/64, C.Color.White,0.9, "TOPRIGHT",f.Right,"TOPRIGHT",0,0)

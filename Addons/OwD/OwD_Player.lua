@@ -191,8 +191,17 @@ local create_Health = function(f)
 		else
 			f.Health[i]: SetPoint("BOTTOMLEFT", f.Health[i-1], "BOTTOMLEFT", 25,2)
 		end
+		
+		f.Health[i].Extra = f:CreateTexture(nil, "OVERLAY")
+		f.Health[i].Extra: SetTexture(F.Media.."Player_HealthBar_Extra")
+		f.Health[i].Extra: SetSize(38,42)
+		f.Health[i].Extra: SetTexCoord(13/64,51/64, 11/64,53/64)
+		f.Health[i].Extra: SetVertexColor(unpack(C.Color.Red))
+		f.Health[i].Extra: SetAlpha(0)
+		f.Health[i].Extra: SetPoint("LEFT", f.Health[i], "LEFT", 4,0)
+		f.Health[i].Extra.a = 0
+		f.Health[i].Extra.t = 0
 	end
-	
 end
 
 local create_Power = function(f)
@@ -378,7 +387,7 @@ L.Player_Frame = function(f)
 	f.Player = CreateFrame("Frame", nil, f)
 	f.Player: SetSize(98, 113)
 	--f.Player: SetPoint("BOTTOMLEFT", f, "CENTER", -580, -320)
-	f.Player: SetPoint("BOTTOMLEFT", f, "CENTER", OwD_DB.Pos.Player.x, OwD_DB.Pos.Player.y)
+	--f.Player: SetPoint("BOTTOMLEFT", f, "CENTER", OwD_DB.Pos.Player.x, OwD_DB.Pos.Player.y)
 	f.Player.unit = "player"
 	
 	create_Health(f.Player)
@@ -438,7 +447,8 @@ L.OnEvent_Player = function(f, event)
 	end
 end
 
-L.OnUpdate_Player = function(f)
+L.OnUpdate_Player = function(f, elapsed)
+	local step = floor(1/(GetFramerate())*1e3)/1e3
 	local d1,d2, d3,d4
 	
 	d1 = f.Health.Cur*8 or 0
@@ -446,12 +456,39 @@ L.OnUpdate_Player = function(f)
 		if d1 >= i then
 			f.Health[i]: SetTexCoord(HP_Coord[11][3],HP_Coord[11][4], HP_Coord[11][5],HP_Coord[11][6])
 			f.Health[i]: Show()
+			
+			f.Health[i].Extra.a = 0
+			f.Health[i].Extra:SetAlpha(f.Health[i].Extra.a)
+			f.Health[i].Extra.t = 0
 		elseif d1 < i and (d1+1) >= i then
 			d2 = floor((d1 + 1 - i) * 11 + 0.5)
 			f.Health[i]: SetTexCoord(HP_Coord[d2][3],HP_Coord[d2][4], HP_Coord[d2][5],HP_Coord[d2][6])
 			f.Health[i]: Show()
+			
+			f.Health[i].Extra.a = 0
+			f.Health[i].Extra:SetAlpha(f.Health[i].Extra.a)
+			f.Health[i].Extra.t = 0
 		else
-			f.Health[i]: Hide()
+			--f.Health[i]: Hide()
+			if f.Health[i]:IsShown() then
+				f.Health[i].Extra.a = f.Health[i].Extra:GetAlpha()
+				if f.Health[i].Extra.a < 1 then
+					f.Health[i].Extra.a = min(f.Health[i].Extra.a + 15*step, 1)
+					f.Health[i].Extra:SetAlpha(f.Health[i].Extra.a)
+				else
+					if f.Health[i].Extra.t < 0.15 then
+						f.Health[i].Extra.t = f.Health[i].Extra.t + step
+					else
+						f.Health[i]:Hide()
+						f.Health[i].Extra.a = 0
+						f.Health[i].Extra.t = 0
+					end
+				end
+			else
+				f.Health[i].Extra.a = 0
+				f.Health[i].Extra:SetAlpha(f.Health[i].Extra.a)
+				f.Health[i].Extra.t = 0
+			end
 		end
 	end
 	
@@ -1122,7 +1159,7 @@ L.FCS = function(f)
 	f.FCS = CreateFrame("Frame", nil, f)
 	f.FCS: SetSize(64,64)
 	--f.FCS: SetPoint("CENTER", f, "CENTER", 0, -250)
-	f.FCS: SetPoint("CENTER", f, "CENTER", 0, OwD_DB.Pos.FCS.y)
+	--f.FCS: SetPoint("CENTER", f, "CENTER", 0, OwD_DB.Pos.FCS.y)
 	
 	create_Background(f.FCS)
 	create_Center_PowNum(f.FCS)

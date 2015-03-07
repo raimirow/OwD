@@ -60,7 +60,7 @@ end
 
 L.DB = {
 	["Pos"] = {
-		["Player"] = {["x"] = -580, ["y"] = -320,},
+		["Player"] = {["x"] = -620, ["y"] = -320,},
 		["FCS"] = {["y"] = -250,},
 		["Minimap"] = {["x"] = -70, ["y"] = -20,},
 	},
@@ -70,7 +70,6 @@ L.DB = {
 }
 
 OwD_DB = L.DB
---local Defaults = OwD_DB
 local OwD_Config = CreateFrame("Frame", nil, UIParent)
 OwD_Config:RegisterEvent("ADDON_LOADED")
 OwD_Config:SetScript("OnEvent", function(self, event, addon)
@@ -88,6 +87,7 @@ OwD_Config:SetScript("OnEvent", function(self, event, addon)
 			end
 		end
 		L.Minimap(OwD)
+		L.init_Config(OwD)
 	end
 end)
 

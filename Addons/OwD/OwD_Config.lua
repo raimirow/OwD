@@ -38,7 +38,7 @@ end
 L.create_Unit = function(f)
 	f.PlayerButton = CreateFrame("Button", "OwD.PlayerButton", UIParent, "SecureUnitButtonTemplate")
 	f.PlayerButton: SetSize(98,113)
-	f.PlayerButton: SetPoint("BOTTOMLEFT", f, "CENTER", OwD_DB.Pos.Player.x, OwD_DB.Pos.Player.y)
+	--f.PlayerButton: SetPoint("BOTTOMLEFT", f, "CENTER", OwD_DB.Pos.Player.x, OwD_DB.Pos.Player.y)
 	init_Unit(f.PlayerButton, f.Player.unit)
 	
 	f.PetButton = CreateFrame("Button", "OwD.PetButton", UIParent, "SecureUnitButtonTemplate")
@@ -162,17 +162,66 @@ local pos_Frame = function(f)
 	Minimap: SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", OwD_DB.Pos.Minimap.x,OwD_DB.Pos.Minimap.y)
 end
 
+L.init_Config = function(f)
+	--> 2
+	floor_Position()
+	pos_Frame(f)
+	
+	--> 4 
+	if OwD_DB.Hide_Blizzard then
+		L.Disable_Blizzard()
+	end
+			
+	--> 5
+	if OwD_DB.Hide_TopBottomBorder then
+		f.Artwork.Border_Bottom1:Hide()
+		f.Artwork.Border_Bottom2:Hide()
+		f.Artwork.Border_Top1:Hide()
+		f.Artwork.Border_Top2:Hide()
+	else
+		f.Artwork.Border_Bottom1:Show()
+		f.Artwork.Border_Bottom2:Show()
+		f.Artwork.Border_Top1:Show()
+		f.Artwork.Border_Top2:Show()			
+	end
+	
+	if (not UnitAffectingCombat("player")) then
+		
+	end
+end
+--[[
 L.init_pos_Frame = function(f, event, addon)
 	if event == "ADDON_LOADED" then
-		if addon == "OwD" and (not UnitAffectingCombat("player")) then
+		if addon == "OwD" then
+			--> 2
 			floor_Position()
 			pos_Frame(f)
 			
-			L.Disable_Blizzard()
+			--> 4 
+			if OwD_DB.Hide_Blizzard then
+				L.Disable_Blizzard()
+			end
+			
+			--> 5
+			if OwD_DB.Hide_TopBottomBorder then
+				f.Artwork.Border_Bottom1:Hide()
+				f.Artwork.Border_Bottom2:Hide()
+				f.Artwork.Border_Top1:Hide()
+				f.Artwork.Border_Top2:Hide()
+			else
+				f.Artwork.Border_Bottom1:Show()
+				f.Artwork.Border_Bottom2:Show()
+				f.Artwork.Border_Top1:Show()
+				f.Artwork.Border_Top2:Show()			
+			end
+			
+			if (not UnitAffectingCombat("player")) then
+				
+			end
 		end
 	end
 end
-
+--]]
 local init_Move = function(f)
 	f: SetSize(20,20)
 	f.v = L.create_Texture(f, "ARTWORK", "Bar", 20,20, 0,1,0,1, C.Color.Blue,1, "CENTER",f,"CENTER",0,0)
@@ -247,14 +296,16 @@ L.Move_Frame = function(f)
 	f.MoveFrame: Hide()
 	
 	f.MoveFrame.Player = CreateFrame("Frame", nil, f.MoveFrame)
-	f.MoveFrame.Player: SetPoint("BOTTOMLEFT", f, "CENTER", OwD_DB.Pos.Player.x, OwD_DB.Pos.Player.y)
+	--f.MoveFrame.Player: SetPoint("BOTTOMLEFT", f, "CENTER", OwD_DB.Pos.Player.x, OwD_DB.Pos.Player.y)
 	init_Move(f.MoveFrame.Player)
 	
 	f.MoveFrame.FCS = CreateFrame("Frame", nil, f.MoveFrame)
-	f.MoveFrame.FCS: SetPoint("CENTER", f, "CENTER", 0, OwD_DB.Pos.FCS.y)
+	--f.MoveFrame.FCS: SetPoint("CENTER", f, "CENTER", 0, OwD_DB.Pos.FCS.y)
 	init_Move(f.MoveFrame.FCS)
 	
 	f.MoveFrame: SetScript("OnShow", function(self)
+		f.MoveFrame.Player: SetPoint("BOTTOMLEFT", f, "CENTER", OwD_DB.Pos.Player.x, OwD_DB.Pos.Player.y)
+		f.MoveFrame.FCS: SetPoint("CENTER", f, "CENTER", 0, OwD_DB.Pos.FCS.y)
 		f.MoveFrame: SetScript("OnUpdate", function(self,elapsed)
 			L.move_IsDragging(f)
 		end)
