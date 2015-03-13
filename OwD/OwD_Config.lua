@@ -247,10 +247,10 @@ L.move_IsDragging = function(f)
 			local x1,y1 = f.MoveFrame.Player:GetLeft(),f.MoveFrame.Player:GetBottom()
 			local step = floor(1/(GetFramerate())*1e3)/1e3
 			if x0 ~= x1 then
-				OwD_DB.Pos.Player.x = OwD_DB.Pos.Player.x + (x1-x0)*step/2
+				OwD_DB.Pos.Player.x = OwD_DB.Pos.Player.x + (x1-x0)*step/1.5
 			end
 			if y0 ~= y1 then
-				OwD_DB.Pos.Player.y = OwD_DB.Pos.Player.y + (y1-y0)*step/2
+				OwD_DB.Pos.Player.y = OwD_DB.Pos.Player.y + (y1-y0)*step/1.5
 			end
 			if OwD_DB.Pos.Player.x > -400 then OwD_DB.Pos.Player.x = -400 end
 			if OwD_DB.Pos.Player.y > -200 then OwD_DB.Pos.Player.y = -200 end
@@ -321,6 +321,12 @@ local OnShow_Config = function(f)
 	for i = 1,4 do
 		f.Config[i].Border: Hide()
 	end
+	--> 1
+	if OwD_DB.WTF_AuraWatch then
+		f.Config[1].Border:Show()
+	else
+		f.Config[1].Border:Hide()
+	end
 	
 	--> 2
 	f.MoveFrame:Hide()
@@ -357,15 +363,15 @@ L.Config_Frame = function(f)
 	f.Config: SetPoint("CENTER", f, "CENTER", 0,0)
 	f.Config: Hide()
 	
-	f.Config.Bg = L.create_Texture(f.Config, "BORDER", "Config\\Circle_Fill", 64,64, 0,1,0,1, C.Color.Black2, 0.9, "CENTER",f.Config,"CENTER",0,0)
-	f.Config.Gs = L.create_Texture(f.Config, "BACKGROUND", "Config\\Circle_Gloss", 64,64, 0,1,0,1, C.Color.Black, 0.5, "CENTER",f.Config,"CENTER",0,0)
+	f.Config.Bg = L.create_Texture(f.Config, "BORDER", "Config\\Circle_Fill", 64,64, 0,1,0,1, C.Color.Black, 0.75, "CENTER",f.Config,"CENTER",0,0)
+	f.Config.Gs = L.create_Texture(f.Config, "BACKGROUND", "Config\\Circle_Gloss", 64,64, 0,1,0,1, C.Color.White, 0.4, "CENTER",f.Config,"CENTER",0,0)
 	f.Config.Border = L.create_Texture(f.Config, "ARTWORK", "Config\\Circle", 64,64, 0,1,0,1, C.Color.Blue, 0.9, "CENTER",f.Config,"CENTER",0,0)
 	f.Config.Text = L.create_Fontstring(f.Config, C.Font.Name, 12, nil)
 	f.Config.Text: SetPoint("CENTER",f.Config,"CENTER",0,0)
 	f.Config.Text: SetText("OwD")
 	
 	f.Config.exText = L.create_Fontstring(f.Config, C.Font.Name, 12, nil)
-	f.Config.exText: SetWidth(150)
+	f.Config.exText: SetWidth(220)
 	f.Config.exText: SetPoint("TOPRIGHT",f.Config,"BOTTOMLEFT",0,-12)
 	f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"])
 	
@@ -373,8 +379,8 @@ L.Config_Frame = function(f)
 		f.Config[i] = CreateFrame("Frame", nil, f.Config)
 		if i <= 4 then
 			f.Config[i]: SetSize(60,60)
-			f.Config[i].Bg = L.create_Texture(f.Config[i], "BORDER", "Config\\Hex_Fill", 128,128, 0,1,0,1, C.Color.Black2, 0.9, "CENTER",f.Config[i],"CENTER",0,0)
-			f.Config[i].Gs = L.create_Texture(f.Config[i], "BACKGROUND", "Config\\Hex_Gloss", 128,128, 0,1,0,1, C.Color.White, 0.3, "CENTER",f.Config[i],"CENTER",0,0)
+			f.Config[i].Bg = L.create_Texture(f.Config[i], "BORDER", "Config\\Hex_Fill", 128,128, 0,1,0,1, C.Color.Black, 0.75, "CENTER",f.Config[i],"CENTER",0,0)
+			f.Config[i].Gs = L.create_Texture(f.Config[i], "BACKGROUND", "Config\\Hex_Gloss", 128,128, 0,1,0,1, C.Color.White, 0.4, "CENTER",f.Config[i],"CENTER",0,0)
 			f.Config[i].Border = L.create_Texture(f.Config[i], "ARTWORK", "Config\\Hex", 128,128, 0,1,0,1, C.Color.Blue, 0.9, "CENTER",f.Config[i],"CENTER",0,0)
 			f.Config[i].Border: Hide()
 			f.Config[i].Text = L.create_Fontstring(f.Config[i], C.Font.Name, 12, nil)
@@ -382,8 +388,8 @@ L.Config_Frame = function(f)
 			f.Config[i].Text: SetWidth(64)
 		else
 			f.Config[i]: SetSize(36,36)
-			f.Config[i].Bg = L.create_Texture(f.Config[i], "BORDER", "Config\\Small_Fill", 64,64, 0,1,0,1, C.Color.Black2, 0.9, "CENTER",f.Config[i],"CENTER",0,0)
-			f.Config[i].Gs = L.create_Texture(f.Config[i], "BACKGROUND", "Config\\Small_Gloss", 64,64, 0,1,0,1, C.Color.White, 0.3, "CENTER",f.Config[i],"CENTER",0,0)
+			f.Config[i].Bg = L.create_Texture(f.Config[i], "BORDER", "Config\\Small_Fill", 64,64, 0,1,0,1, C.Color.Black, 0.75, "CENTER",f.Config[i],"CENTER",0,0)
+			f.Config[i].Gs = L.create_Texture(f.Config[i], "BACKGROUND", "Config\\Small_Gloss", 64,64, 0,1,0,1, C.Color.White, 0.4, "CENTER",f.Config[i],"CENTER",0,0)
 			f.Config[i].Border = L.create_Texture(f.Config[i], "ARTWORK", "Config\\Small", 64,64, 0,1,0,1, C.Color.Blue, 0.9, "CENTER",f.Config[i],"CENTER",0,0)
 			f.Config[i].Border: Hide()
 			f.Config[i].Text = L.create_Fontstring(f.Config[i], C.Font.Name, 10, nil)
@@ -416,14 +422,26 @@ L.Config_Frame = function(f)
 		end
 	end)
 	
-	--[[
-	f.Config[1].Text: SetText(L.Text["CONFIG_EXIT"])
-	f.Config[1]: SetScript("OnEnter", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXITE_EXPLAIN"]) end)
+	f.Config[1].Text: SetText(L.Text["CONFIG_AuraWatch"])
+	f.Config[1]: SetScript("OnEnter", function(self) f.Config.exText: SetText(L.Text["CONFIG_AuraWatch_EXPLAIN"]) end)
 	f.Config[1]: SetScript("OnLeave", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"]) end)
 	f.Config[1]: SetScript("OnMouseDown", function(self, button)
-		f.Config:Hide()
+		if button == "LeftButton" then
+			
+		elseif button == "RightButton" then
+			if OwD_DB.WTF_AuraWatch then
+				OwD_DB.WTF_AuraWatch = false
+				f.Config[1].Border:Hide()
+				L.init_AuraWatch(f.Right)
+			
+			else
+				OwD_DB.WTF_AuraWatch = true
+				f.Config[1].Border:Show()
+				L.init_AuraWatch(f.Right)
+			end
+		end
 	end)
-	--]]
+	
 	f.Config[2].Text: SetText(L.Text["CONFIG_MOVEFRAME"])
 	f.Config[2]: SetScript("OnEnter", function(self) f.Config.exText: SetText(L.Text["CONFIG_MOVEFRAME_EXPLAIN"]) end)
 	f.Config[2]: SetScript("OnLeave", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"]) end)

@@ -17,79 +17,20 @@ OwD = engine	-->Allow other addons to use Engine
 local C, F, L = unpack(select(2, ...))
 
 
-
 --- ----------------------------------------------------------------------
---> Configure
+--> Slash
 --- ----------------------------------------------------------------------
+-->> Reload UI
+SLASH_RELOADUI1 = "/rl"
+SlashCmdList.RELOADUI = ReloadUI
 
---- ----------------------------------------------------------------------------
---> Locale
---- ----------------------------------------------------------------------------
-
-local locale = GetLocale()
-L.Text = {}
-if locale == "zhCN" then
-	L.Text["CONFIG_EXPLAIN"] = "Overwatch Display"
-	L.Text["CONFIG_MOVEFRAME"] = "移动框体"
-	L.Text["CONFIG_MOVEFRAME_EXPLAIN"] = "左键点击移动框体(拖动蓝色方块来移动框体)\n右键点击还原默认位置"
-	L.Text["CONFIG_EXIT"] = "退出"
-	L.Text["CONFIG_EXITE_EXPLAIN"] = "退出设置界面"
-	L.Text["CONFIG_HIDEBLIZZARD"] = "暴雪默认头像"
-	L.Text["CONFIG_HIDEBLIZZARD_EXPLAIN"] = "显示/隐藏暴雪默认头像(显示需重载界面)"
-	L.Text["CONFIG_HIDETOPBOTTOMBORDER"] = "上下边框"
-	L.Text["CONFIG_HIDETOPBOTTOMBORDER_EXPLAIN"] = "显示/隐藏上下装饰边框"
-	L.Text["CONFIG_HIDEMINIMAP"] = "小地图"
-	L.Text["CONFIG_HIDEMINIMAP_EXPLAIN"] = "隐藏小地图\n(注意：隐藏小地图后打不开设置界面)"
-else
-	L.Text["CONFIG_EXPLAIN"] = "Overwatch Display"
-	L.Text["CONFIG_MOVEFRAME"] = "Move Frames"
-	L.Text["CONFIG_MOVEFRAME_EXPLAIN"] = "Drag the blue square to move frame"
-	L.Text["CONFIG_EXIT"] = "Exit"
-	L.Text["CONFIG_EXITE_EXPLAIN"] = "Exit the config frame"
-	L.Text["CONFIG_HIDEBLIZZARD"] = "Blizzard UnitFrames"
-	L.Text["CONFIG_HIDEBLIZZARD_EXPLAIN"] = "Show/Hide Blizzard unitframes (need to reload UI)"
-	L.Text["CONFIG_HIDETOPBOTTOMBORDER"] = "装饰边框"
-	L.Text["CONFIG_HIDETOPBOTTOMBORDER_EXPLAIN"] = "显示/隐藏上下装饰边框"
-	L.Text["CONFIG_HIDEMINIMAP"] = "小地图"
-	L.Text["CONFIG_HIDEMINIMAP_EXPLAIN"] = "隐藏小地图\n(注意：隐藏小地图后打不开设置界面)"
+-->> Calendar
+SlashCmdList["CALENDAR"] = function()
+	ToggleCalendar()
 end
+SLASH_CALENDAR1 = "/cl"
+SLASH_CALENDAR2 = "/calendar"
 
----- ----------------------------------
--->> SavedVariables
----- ----------------------------------
-
-L.DB = {
-	["Pos"] = {
-		["Player"] = {["x"] = -620, ["y"] = -320,},
-		["FCS"] = {["y"] = -250,},
-		["Minimap"] = {["x"] = -70, ["y"] = -20,},
-	},
-	["Hide_Blizzard"] = true,
-	["Hide_TopBottomBorder"] = false,
-	["Hide_Minimap"] = false,
-}
-
-OwD_DB = L.DB
-local OwD_Config = CreateFrame("Frame", nil, UIParent)
-OwD_Config:RegisterEvent("ADDON_LOADED")
-OwD_Config:SetScript("OnEvent", function(self, event, addon)
-	if addon == "OwD" then
-		for key, value in pairs(L.DB) do
-			if OwD_DB[key] == nil then
-				if type(value) == "table" then
-					OwD_DB[key] = {}
-					for k, v in pairs(value) do
-						OwD_DB[key][k] = value[k]
-					end
-				else
-					OwD_DB[key] = value
-				end
-			end
-		end
-		L.Minimap(OwD)
-		L.init_Config(OwD)
-	end
-end)
 
 --- ----------------------------------------------------------------------
 --> Texture
@@ -127,7 +68,7 @@ C.Color = {
 	["Red"] =			{255/255,  29/255,  65/255},
 	["Red0"] =			{255/255,  77/255, 105/255},
 	["Yellow"] =		{253/255, 218/255,   4/255},
-	["Yellow2"] =		{219/255, 140/255,  15/255},
+	["Orange"] =		{219/255, 140/255,  15/255},
 	["Yellow3"] =		{205/255, 201/255,  125/255},
 	--["Black"] =			{ 35/255,  15/255,  43/255},
 	["Black"] =			{0.09, 0.09, 0.09},
@@ -172,20 +113,37 @@ C.Font = {
 	["Num2"] =			"Interface\\Addons\\"..addon.."\\Media\\Fonts\\BigNoodleTitling.ttf",
 }
 
---- ----------------------------------------------------------------------
---> Slash
---- ----------------------------------------------------------------------
+--- ----------------------------------------------------------------------------
+--> Locale
+--- ----------------------------------------------------------------------------
 
--->> Reload UI
-SLASH_RELOADUI1 = "/rl"
-SlashCmdList.RELOADUI = ReloadUI
-
--->> Calendar
-SlashCmdList["CALENDAR"] = function()
-	ToggleCalendar()
+local locale = GetLocale()
+L.Text = {}
+if locale == "zhCN" then
+	L.Text["CONFIG_EXPLAIN"] = "Overwatch Display"
+	L.Text["CONFIG_MOVEFRAME"] = "移动框体"
+	L.Text["CONFIG_MOVEFRAME_EXPLAIN"] = "左键点击移动框体(拖动蓝色方块来移动框体)\n右键点击还原默认位置"
+	L.Text["CONFIG_EXIT"] = "退出"
+	L.Text["CONFIG_EXITE_EXPLAIN"] = "退出设置界面"
+	L.Text["CONFIG_HIDEBLIZZARD"] = "暴雪默认头像"
+	L.Text["CONFIG_HIDEBLIZZARD_EXPLAIN"] = "显示/隐藏暴雪默认头像(显示需重载界面)"
+	L.Text["CONFIG_HIDETOPBOTTOMBORDER"] = "上下边框"
+	L.Text["CONFIG_HIDETOPBOTTOMBORDER_EXPLAIN"] = "显示/隐藏上下装饰边框"
+	L.Text["CONFIG_AuraWatch"] = "设置\nAuraWatch"
+	L.Text["CONFIG_AuraWatch_EXPLAIN"] = "左键点击打开AuraWatch设置界面\n右键点击切换使用Lua和系统Aura列表"
+else
+	L.Text["CONFIG_EXPLAIN"] = "Overwatch Display"
+	L.Text["CONFIG_MOVEFRAME"] = "Move Frames"
+	L.Text["CONFIG_MOVEFRAME_EXPLAIN"] = "Drag the blue square to move frame"
+	L.Text["CONFIG_EXIT"] = "Exit"
+	L.Text["CONFIG_EXITE_EXPLAIN"] = "Exit the config frame"
+	L.Text["CONFIG_HIDEBLIZZARD"] = "Blizzard UnitFrames"
+	L.Text["CONFIG_HIDEBLIZZARD_EXPLAIN"] = "Show/Hide Blizzard unitframes (need to reload UI)"
+	L.Text["CONFIG_HIDETOPBOTTOMBORDER"] = "装饰边框"
+	L.Text["CONFIG_HIDETOPBOTTOMBORDER_EXPLAIN"] = "显示/隐藏上下装饰边框"
+	L.Text["CONFIG_HIDEMINIMAP"] = "小地图"
+	L.Text["CONFIG_HIDEMINIMAP_EXPLAIN"] = "隐藏小地图\n(注意：隐藏小地图后打不开设置界面)"
 end
-SLASH_CALENDAR1 = "/cl"
-SLASH_CALENDAR2 = "/calendar"
 
 --- ----------------------------------------------------------------------
 --> Function

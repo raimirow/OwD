@@ -180,7 +180,7 @@ local create_Clock = function(f)
 	if not f.Clock then
 	f.Clock = CreateFrame("Frame", nil, f)
 	f.Clock: SetSize(67,32)
-	f.Clock: SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -7,-6)
+	f.Clock: SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -8,-6)
 	f.Clock: SetFrameLevel(f:GetFrameLevel()+1)
 	f.Clock: EnableMouse(true)
 	

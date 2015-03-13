@@ -9,11 +9,14 @@
 
 
 OwD_Init.lua
+OwD_AuraWatch_List.lua
+OwD_InitExtra.lua
 OwD_Lib.lua
 OwD_Player.lua
 OwD_Target.lua
 OwD_Focus.lua
-OwD_AuraWatch.lua
+OwD_Right.lua
+OwD_AuraWatch_Config.lua
 OwD_Minimap.lua
 OwD_Castbar.lua
 OwD_Config.lua

@@ -198,7 +198,7 @@ local create_Health = function(f)
 		f.Health[i].Extra: SetTexCoord(13/64,51/64, 11/64,53/64)
 		f.Health[i].Extra: SetVertexColor(unpack(C.Color.Red))
 		f.Health[i].Extra: SetAlpha(0)
-		f.Health[i].Extra: SetPoint("LEFT", f.Health[i], "LEFT", 4,0)
+		f.Health[i].Extra: SetPoint("LEFT", f.Health[i], "LEFT", 2,0)
 		f.Health[i].Extra.a = 0
 		f.Health[i].Extra.t = 0
 	end
@@ -469,14 +469,13 @@ L.OnUpdate_Player = function(f, elapsed)
 			f.Health[i].Extra:SetAlpha(f.Health[i].Extra.a)
 			f.Health[i].Extra.t = 0
 		else
-			--f.Health[i]: Hide()
 			if f.Health[i]:IsShown() then
 				f.Health[i].Extra.a = f.Health[i].Extra:GetAlpha()
 				if f.Health[i].Extra.a < 1 then
 					f.Health[i].Extra.a = min(f.Health[i].Extra.a + 15*step, 1)
 					f.Health[i].Extra:SetAlpha(f.Health[i].Extra.a)
 				else
-					if f.Health[i].Extra.t < 0.15 then
+					if f.Health[i].Extra.t < 0.2 then
 						f.Health[i].Extra.t = f.Health[i].Extra.t + step
 					else
 						f.Health[i]:Hide()
@@ -954,6 +953,8 @@ local create_Point = function(f)
 			elseif f.Point.classFileName == "HUNTER" then----------------------------------------HUNTER
 				
 			elseif f.Point.classFileName == "ROGUE" then-----------------------------------------ROGUE
+				f.Point.pMax = 5
+				f.Point.combo =  GetComboPoints("player", "target")
 				update_Point(f, f.Point.pMax, f.Point.combo)
 				f.Point.p, f.Point.Expires, f.Point.Duration = update_Aura("player", 115189, "HELPFUL")
 				if f.Point.p and f.Point.p > 0 then
@@ -1144,9 +1145,16 @@ L.OnUpdate_FCS = function(f, elapsed)
 			else
 				f.Point.Indicator: Hide()
 			end
+		else
+			if f.Point.Indicator.Per > 0 and f.Point.Indicator.Per < 360 then
+				f.Point.Indicator: Show()
+				F.RotateTexture(f.Point.Indicator, f.Point.Indicator.Cur)
+			else
+				f.Point.Indicator: Hide()
+			end
 		end
 	else
-		if f.Point.Indicator.Per > 0 and f.Point.Indicator.Per < 1 then
+		if f.Point.Indicator.Per > 0 and f.Point.Indicator.Per < 360 then
 			f.Point.Indicator: Show()
 			F.RotateTexture(f.Point.Indicator, f.Point.Indicator.Cur)
 		else
@@ -1279,11 +1287,11 @@ L.OnEvent_XP = function(f, event)
 				XP = 0
 				x4 = 0
 			end	
-			x1 = floor(XP/100)
-			x2 = floor(XP/10-floor(XP/100)*10)
-			x3 = floor(XP-floor(XP/10)*10)
-			x5 = floor(XP*10-floor(XP)*10)
-			x6 = floor(XP*100-floor(XP*10)*10+0.5)
+			x1 = max(min(floor(XP/100),9),0)
+			x2 = max(min(floor(XP/10-floor(XP/100)*10),9),0)
+			x3 = max(min(floor(XP-floor(XP/10)*10),9),0)
+			x5 = max(min(floor(XP*10-floor(XP)*10),9),0)
+			x6 = max(min(floor(XP*100-floor(XP*10)*10),9),0)
 			
 			f.XP[9]: SetAlpha(1)
 			f.XP[8]: SetAlpha(1)
@@ -1309,10 +1317,10 @@ L.OnEvent_XP = function(f, event)
 		end
 		
 		if maxXP < 1e3 then
-			m1 = floor(maxXP/1000)
-			m2 = floor(maxXP/100-floor(maxXP/1000)*10)
-			m3 = floor(maxXP/10-floor(maxXP/100)*10)
-			m4 = floor(maxXP-floor(maxXP/10)*10+0.5)
+			m1 = max(min(floor(maxXP/1000),9),0)
+			m2 = max(min(floor(maxXP/100-floor(maxXP/1000)*10),9),0)
+			m3 = max(min(floor(maxXP/10-floor(maxXP/100)*10),9),0)
+			m4 = max(min(floor(maxXP-floor(maxXP/10)*10+0.5),9),0)
 		
 			if m1 <= 0 then
 				f.XP[4]: SetAlpha(0.3)
@@ -1399,7 +1407,7 @@ end
 L.XP = function(f)
 	f.XP = CreateFrame("Frame", nil, f)
 	f.XP: SetSize(139,18)
-	f.XP: SetPoint("BOTTOMRIGHT", f.Right, "TOPRIGHT", 60, 20)
+	f.XP: SetPoint("BOTTOMRIGHT", f.Right, "BOTTOMRIGHT", 0, 70)
 	
 	f.XP.Bg = L.create_Texture(f.XP, "BACKGROUND", "XP_Bar", 139,18, 59/256,198/256,7/32,25/32, C.Color.White2,0.5, "BOTTOMLEFT", f.XP,"BOTTOMLEFT",0,0)
 	f.XP.Bar = L.create_Texture(f.XP, "ARTWORK", "XP_Bar", 139,18, 59/256,198/256,7/32,25/32, C.Color.White,0.9, "BOTTOMLEFT", f.XP,"BOTTOMLEFT",0,0)

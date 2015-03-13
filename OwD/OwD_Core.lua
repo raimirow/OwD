@@ -186,6 +186,7 @@ L.create_Unit(OwD)
 
 L.Config_Frame(OwD)
 L.Move_Frame(OwD)
+L.AuraWatch_Config(OwD)
 
 onEvent_OwD(OwD)
 onUpdate_OwD(OwD)

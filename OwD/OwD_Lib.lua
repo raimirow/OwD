@@ -20,7 +20,7 @@ end
 L.create_Fontstring = function(f, name, size, outline)
 	local fs = f:CreateFontString(nil, "OVERLAY")
 	fs:SetFont(name, size, outline)
-	fs:SetShadowColor(0,0,0,0.8)
+	fs:SetShadowColor(0,0,0,0.9)
 	fs:SetShadowOffset(1,-1)
 	return fs
 end  

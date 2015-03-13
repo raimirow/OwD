@@ -181,11 +181,13 @@ local create_Name = function(f)
 	f.Name = L.create_Fontstring(f, C.Font.Name, 18, nil)
 	--f.Name: SetWidth(120)
 	f.Name: SetPoint("BOTTOMLEFT", f, "TOPLEFT", 16,9)
+	f.Name: SetShadowOffset(2,2)
 	f.Name: SetText("暴风城测试员")
 	
 	f.Lv = L.create_Fontstring(f, C.Font.Num, 12, nil)
 	--f.Lv: SetWidth(120)
 	f.Lv: SetPoint("BOTTOMLEFT", f.Name, "BOTTOMRIGHT", 4,-1)
+	f.Lv: SetShadowOffset(2,2)
 	f.Lv: SetText("100")
 end
 
@@ -322,7 +324,7 @@ L.OnEvent_Target = function(f, event)
 			local eColor = {}
 			if UnitIsPlayer("target") then
 				local eClass = select(2, UnitClass("target"))
-				eColor = C.Color.Class[eClass]
+				eColor = C.Color.Class[eClass] or C.Color.White
 			else
 				--[[
 				local canAttack = UnitCanAttack("player", "target")
@@ -648,11 +650,13 @@ L.ToT_Frame = function(f)
 	f.ToT.Name = L.create_Fontstring(f.ToT, C.Font.Name, 18, nil)
 	--f.Name: SetWidth(120)
 	f.ToT.Name: SetPoint("LEFT", f.ToT, "RIGHT", -30,0)
+	f.ToT.Name: SetShadowOffset(2,2)
 	f.ToT.Name: SetText("暴风城测试员")
 	
 	f.ToT.Lv = L.create_Fontstring(f.ToT, C.Font.Num, 12, nil)
 	--f.Lv: SetWidth(120)
 	f.ToT.Lv: SetPoint("BOTTOMLEFT", f.ToT.Name, "BOTTOMRIGHT", 4,-1)
+	f.ToT.Lv: SetShadowOffset(2,2)
 	f.ToT.Lv: SetText("100")
 	
 	-->Health
