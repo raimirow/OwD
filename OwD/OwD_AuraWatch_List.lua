@@ -239,7 +239,7 @@ L.AuraFilter["WARLOCK"] = {
 			{Spell = nil,      Aura = "48181",  Unit = "target", Icon = "OW_SonicArrow"      }, --鬼影缠身
 		},
 		[2] = {
-			{Spell = "113860", Aura = "113860", Unit = "Player", Icon = "OW_GuardianAngel"   }, --黑暗灵魂：哀难
+			{Spell = "113860", Aura = "113860", Unit = "player", Icon = "OW_GuardianAngel"   }, --黑暗灵魂：哀难
 		},
 		[3] = {
 			

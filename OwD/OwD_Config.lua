@@ -189,39 +189,7 @@ L.init_Config = function(f)
 		
 	end
 end
---[[
-L.init_pos_Frame = function(f, event, addon)
-	if event == "ADDON_LOADED" then
-		if addon == "OwD" then
-			--> 2
-			floor_Position()
-			pos_Frame(f)
-			
-			--> 4 
-			if OwD_DB.Hide_Blizzard then
-				L.Disable_Blizzard()
-			end
-			
-			--> 5
-			if OwD_DB.Hide_TopBottomBorder then
-				f.Artwork.Border_Bottom1:Hide()
-				f.Artwork.Border_Bottom2:Hide()
-				f.Artwork.Border_Top1:Hide()
-				f.Artwork.Border_Top2:Hide()
-			else
-				f.Artwork.Border_Bottom1:Show()
-				f.Artwork.Border_Bottom2:Show()
-				f.Artwork.Border_Top1:Show()
-				f.Artwork.Border_Top2:Show()			
-			end
-			
-			if (not UnitAffectingCombat("player")) then
-				
-			end
-		end
-	end
-end
---]]
+
 local init_Move = function(f)
 	f: SetSize(20,20)
 	f.v = L.create_Texture(f, "ARTWORK", "Bar", 20,20, 0,1,0,1, C.Color.Blue,1, "CENTER",f,"CENTER",0,0)
@@ -283,8 +251,6 @@ L.move_IsDragging = function(f)
 			f.MoveFrame.FCS: SetPoint("CENTER", f, "CENTER", 0, OwD_DB.Pos.FCS.y)
 		end
 	end
-	
-	
 end
 
 L.Move_Frame = function(f)
@@ -357,8 +323,8 @@ end
 --> Config Frame
 L.Config_Frame = function(f)
 	f.Config = CreateFrame("Frame", nil, f)
-	f.Config: SetFrameStrata("HIGH")
-	f.Config: SetFrameLevel(1)
+	--f.Config: SetFrameStrata("HIGH")
+	f.Config: SetFrameLevel(20)
 	f.Config: SetSize(54,54)
 	f.Config: SetPoint("CENTER", f, "CENTER", 0,0)
 	f.Config: Hide()
@@ -427,7 +393,11 @@ L.Config_Frame = function(f)
 	f.Config[1]: SetScript("OnLeave", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"]) end)
 	f.Config[1]: SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" then
-			
+			if f.AW_Config:IsVisible() then
+				f.AW_Config:Hide()
+			else
+				f.AW_Config:Show()
+			end
 		elseif button == "RightButton" then
 			if OwD_DB.WTF_AuraWatch then
 				OwD_DB.WTF_AuraWatch = false
@@ -476,12 +446,10 @@ L.Config_Frame = function(f)
 		if OwD_DB.Hide_Blizzard then
 			OwD_DB.Hide_Blizzard = false
 			f.Config[4].Border:Show()
-			
 		else
 			OwD_DB.Hide_Blizzard = true
 			f.Config[4].Border:Hide()
 			L.Disable_Blizzard()
-			--ReloadUI()
 		end
 	end)
 	
