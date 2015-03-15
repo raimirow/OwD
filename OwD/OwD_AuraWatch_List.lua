@@ -291,14 +291,14 @@ L.AuraFilter["MONK"] = {
 	},
 	[3] = {	--风行
 		[1] = {
-			{Spell = nil,      Aura = "125195", Unit = "player", Icon = "OW_Blink"          }, --虎眼酒
-			{Spell = "117418", Aura = nil,      Unit = nil,      Icon = "OW_ScatterArrow"   }, --怒雷破
-			{Spell = "107428", Aura = nil,      Unit = nil,      Icon = "OW_JumpJet"        }, --旭日东升踢
+			{Spell = nil,      Aura = "125195", Unit = "player", Icon = "Blink"              }, --虎眼酒
+			{Spell = "117418", Aura = nil,      Unit = nil,      Icon = "ScatterArrow"       }, --怒雷破
+			{Spell = "107428", Aura = nil,      Unit = nil,      Icon = "JumpJet"            }, --旭日东升踢
 			
 		},
 		[2] = {
-			{Spell = nil,      Aura = "125359", Unit = "player", Icon = "OW_GuardianAngel"  }, --猛虎之力
-			{Spell = "116705", Aura = nil     , Unit = nil,      Icon = "OW_FireStrike"     }, --切喉手
+			{Spell = nil,      Aura = "125359", Unit = "player", Icon = "GuardianAngel"      }, --猛虎之力
+			{Spell = "116705", Aura = nil     , Unit = nil,      Icon = "FireStrike"         }, --切喉手
 		},	
 	},
 }
@@ -306,9 +306,9 @@ L.AuraFilter["MONK"] = {
 L.AuraFilter["DRUID"] = {
 	[1] = {	--平衡
 		[1] = {
-			{Spell = nil,      Aura = "164812", Unit = "target", Icon = "OW_OrbofDiscord"    }, --月火术
-			{Spell = nil,      Aura = "164815", Unit = "target", Icon = "OW_OrbofHarmony"    }, --阳炎术
-			{Spell = "112071", Aura = "112071", Unit = "Player", Icon = "OW_ConcussiveBlast" }, --超凡之盟
+			{Spell = nil,      Aura = "164812", Unit = "target", Icon = "OrbofDiscord"       }, --月火术
+			{Spell = nil,      Aura = "164815", Unit = "target", Icon = "OrbofHarmony"       }, --阳炎术
+			{Spell = "112071", Aura = "112071", Unit = "Player", Icon = "ConcussiveBlast"    }, --超凡之盟
 		},
 		[2] = {
 		
@@ -316,25 +316,25 @@ L.AuraFilter["DRUID"] = {
 	},
 	[2] = {	--野性
 		[1] = {
-			{Spell = nil,      Aura = "155722", Unit = "target", Icon = "Ability_Druid_Disembowel"}, --斜掠
-			{Spell = nil,      Aura = "1079",   Unit = "target", Icon = "OW_Recall"          }, --割裂
-			{Spell = "5217",   Aura = "5217",   Unit = "player", Icon = "OW_Blink"           }, --猛虎之怒
-			{Spell = "106952", Aura = "106951", Unit = "player", Icon = "OW_ConcussiveBlast" }, --狂暴
+			{Spell = nil,      Aura = "155722", Unit = "target", Icon = "Flashbang"          }, --斜掠
+			{Spell = nil,      Aura = "1079",   Unit = "target", Icon = "Recall"             }, --割裂
+			{Spell = "5217",   Aura = "5217",   Unit = "player", Icon = "Blink"              }, --猛虎之怒
+			{Spell = "106952", Aura = "106951", Unit = "player", Icon = "ConcussiveBlast"    }, --狂暴
 		},
 		[2] = {
-			{Spell = "106839", Aura = nil,      Unit = nil,      Icon = "OW_FireStrike"      }, --迎头痛击
-			{Spell = nil,      Aura = "127538", Unit = "player", Icon = "OW_GuardianAngel"   }, --野蛮咆哮
+			{Spell = "106839", Aura = nil,      Unit = nil,      Icon = "FireStrike"         }, --迎头痛击
+			{Spell = nil,      Aura = "127538", Unit = "player", Icon = "GuardianAngel"      }, --野蛮咆哮
 		},
 	},
 	[3] = {	--守护
 		[1] = {
-			{Spell = nil,      Aura = "77758",  Unit = "target", Icon = "OW_ScatterArrow"    }, --痛击
-			{Spell = "6807",   Aura = nil,      Unit = nil,      Icon = "OW_SonicArrow"      }, --重殴
-			{Spell = "33917",  Aura = nil,      Unit = nil,      Icon = "OW_Recall"          }, --裂伤
-			{Spell = "106952", Aura = "106951", Unit = "player", Icon = "OW_ConcussiveBlast" }, --狂暴
+			{Spell = nil,      Aura = "77758",  Unit = "target", Icon = "ScatterArrow"       }, --痛击
+			{Spell = "6807",   Aura = nil,      Unit = nil,      Icon = "SonicArrow"         }, --重殴
+			{Spell = "33917",  Aura = nil,      Unit = nil,      Icon = "Recall"             }, --裂伤
+			{Spell = "106952", Aura = "106951", Unit = "player", Icon = "ConcussiveBlast"    }, --狂暴
 		},
 		[1] = {
-			{Spell = "106839", Aura = nil,      Unit = nil,      Icon = "OW_FireStrike"      }, --迎头痛击
+			{Spell = "106839", Aura = nil,      Unit = nil,      Icon = "FireStrike"         }, --迎头痛击
 		},	
 	},
 	[4] = {	--恢复

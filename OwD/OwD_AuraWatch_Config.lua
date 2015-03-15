@@ -303,8 +303,13 @@ local init_AW_Config = function(f)
 	f.Explain: SetSize(f:GetWidth(),44)
 	f.Explain: SetPoint("TOPLEFT", f, "BOTTOMLEFT", 0,-4)
 	create_Backdrop(f.Explain)
-	
 	f.Explain.Line = L.create_Texture(f.Explain, "BORDER", "Bar", f:GetWidth()-4,3, 0,1,0,1, C.Color.White,0.9, "BOTTOM",f.Explain,"BOTTOM",0,2)
+	f.Explain.Text = L.create_Fontstring(f.Explain, C.Font.Name, 12, nil)
+	f.Explain.Text: SetJustifyH("LEFT")
+	f.Explain.Text: SetWidth(320)
+	f.Explain.Text: SetPoint("TOPLEFT", f.Explain, "TOPLEFT", 4,-4)
+	f.Explain.Text: SetText("左键点击上移，右键点击下移，点 X 号删除技能。\n下方输入新技能，点对号添加。")
+	
 	
 	f.insert = CreateFrame("Frame", nil, f)
 	f.insert: SetFrameLevel(f:GetFrameLevel()+1)
