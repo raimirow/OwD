@@ -342,7 +342,7 @@ L.Config_Frame = function(f)
 	f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"])
 	
 	for i = 1,6 do 
-		f.Config[i] = CreateFrame("Frame", nil, f.Config)
+		f.Config[i] = CreateFrame("Button", nil, f.Config)
 		if i <= 4 then
 			f.Config[i]: SetSize(60,60)
 			f.Config[i].Bg = L.create_Texture(f.Config[i], "BORDER", "Config\\Hex_Fill", 128,128, 0,1,0,1, C.Color.Black, 0.75, "CENTER",f.Config[i],"CENTER",0,0)
@@ -442,10 +442,11 @@ L.Config_Frame = function(f)
 	f.Config[4].Text: SetText(L.Text["CONFIG_HIDEBLIZZARD"])
 	f.Config[4]: SetScript("OnEnter", function(self) f.Config.exText: SetText(L.Text["CONFIG_HIDEBLIZZARD_EXPLAIN"]) end)
 	f.Config[4]: SetScript("OnLeave", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"]) end)
-	f.Config[4]: SetScript("OnMouseDown", function(self, button)
+	f.Config[4]: SetScript("OnClick", function(self, button)
 		if OwD_DB.Hide_Blizzard then
 			OwD_DB.Hide_Blizzard = false
 			f.Config[4].Border:Show()
+			SlashCmdList.RELOADUI()
 		else
 			OwD_DB.Hide_Blizzard = true
 			f.Config[4].Border:Hide()
