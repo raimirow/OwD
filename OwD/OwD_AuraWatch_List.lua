@@ -233,13 +233,13 @@ L.AuraFilter["MAGE"] = {
 L.AuraFilter["WARLOCK"] = {
 	[1] = { --痛苦
 		[1] = {
-			{Spell = "146739", Aura = "146739", Unit = "target", Icon = "OW_JumpJet"         }, --腐蚀术
-			{Spell = nil,      Aura = "980",    Unit = "target", Icon = "OW_Blink"           }, -->痛楚
-			{Spell = nil,      Aura = "30108",  Unit = "target", Icon = "OW_ConcussiveBlast" }, --痛苦无常
-			{Spell = nil,      Aura = "48181",  Unit = "target", Icon = "OW_SonicArrow"      }, --鬼影缠身
+			{Spell = "146739", Aura = "146739", Unit = "target", Icon = "JumpJet"         }, --腐蚀术
+			{Spell = nil,      Aura = "980",    Unit = "target", Icon = "ShadowStep"      }, -->痛楚
+			{Spell = nil,      Aura = "30108",  Unit = "target", Icon = "WraithForm"      }, --痛苦无常
+			{Spell = nil,      Aura = "48181",  Unit = "target", Icon = "DeathBlossom"    }, --鬼影缠身
 		},
 		[2] = {
-			{Spell = "113860", Aura = "113860", Unit = "player", Icon = "OW_GuardianAngel"   }, --黑暗灵魂：哀难
+			{Spell = "113860", Aura = "113860", Unit = "player", Icon = "GuardianAngel"   }, --黑暗灵魂：哀难
 		},
 		[3] = {
 			
@@ -247,7 +247,7 @@ L.AuraFilter["WARLOCK"] = {
 	},
 	[2] = { --恶魔学识
 		[1] = {
-			{Spell = nil,      Aura = "47960", Unit = "target", Icon = "OW_JumpJet"          }, --古尔丹之手
+			{Spell = nil,      Aura = "47960", Unit = "target", Icon = "JumpJet"          }, --古尔丹之手
 		},
 		[2] = {
 		
@@ -258,13 +258,13 @@ L.AuraFilter["WARLOCK"] = {
 	},
 	[3] = { --毁灭
 		[1] = {
-			{Spell = nil,      Aura = "157736", Unit = "target", Icon = "OW_JumpJet"         }, --献祭
-			{Spell = nil,      Aura = "117828", Unit = "player", Icon = "OW_SonicArrow"      }, --爆燃
-			{Spell = "17962",  Aura = nil,      Unit = nil,      Icon = "OW_ConcussiveBlast" }, --燃烧
-			{Spell = "113858", Aura = "113858", Unit = "player", Icon = "OW_GuardianAngel"   }, --黑暗灵魂：易爆
+			{Spell = nil,      Aura = "157736", Unit = "target", Icon = "JumpJet"         }, --献祭
+			{Spell = nil,      Aura = "117828", Unit = "player", Icon = "Blink"           }, --爆燃
+			{Spell = "17962",  Aura = nil,      Unit = nil,      Icon = "Flashbang"       }, --燃烧
+			{Spell = "113858", Aura = "113858", Unit = "player", Icon = "GuardianAngel"   }, --黑暗灵魂：易爆
 		},
 		[2] = {
-			{Spell = "120451", Aura = nil,      Unit = nil,      Icon = "OW_OrbofHarmony"    }, --克索诺斯之焰
+			{Spell = "120451", Aura = nil,      Unit = nil,      Icon = "Resurrect"       }, --克索诺斯之焰
 		},
 		[3] = {
 			
