@@ -222,8 +222,8 @@ L.Feedback = function(f)
 					if arg4 ~= 0 then
 						local maxHealth = UnitHealthMax("player")
 						local d = floor(abs(arg4/maxHealth)*100)/100
-						if d > 0.001 then
-							f.Feedback.x_offset = max(f.Feedback.x_offset, d*34)
+						if d > 0.02 then
+							f.Feedback.x_offset = max(f.Feedback.x_offset, d*20+14)
 							f.Feedback:SetScript("OnUpdate", function(self,elapsed)
 								local step = floor(1/(GetFramerate())*1e3)/1e3
 								if f.Feedback.x * f.Feedback.dir < f.Feedback.x_offset then

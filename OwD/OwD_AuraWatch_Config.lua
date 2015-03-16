@@ -122,11 +122,13 @@ local iconselect = {
 }
 
 local create_IconSelect = function(f)
-	local i = f:GetParent()
-	local p = i:GetParent()
+	--local i = f:GetParent()
+	--local p = i:GetParent()
+	local p = f:GetParent()
 	f.IS = CreateFrame("Frame", nil, f)
 	f.IS: SetSize(32*6+4, 32*7+4)
-	f.IS: SetPoint("TOPRIGHT",p,"TOPLEFT",-10,0)
+	--f.IS: SetPoint("TOPRIGHT",p,"TOPLEFT",-10,0)
+	f.IS: SetPoint("BOTTOMRIGHT",p,"BOTTOMLEFT",-10,0)
 	create_Backdrop(f.IS)
 	
 	for i = 1,6 do
