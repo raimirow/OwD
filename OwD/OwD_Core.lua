@@ -159,6 +159,7 @@ OwD: SetAlpha(1)
 
 L.Player_Frame(OwD)
 L.FCS(OwD)
+L.Rune(OwD)
 L.Right(OwD)
 L.GCD(OwD)
 L.Target_Frame(OwD)

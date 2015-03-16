@@ -110,7 +110,7 @@ L.init_AuraWatch = function(f)
 	if classFileName and specID then
 		--> 1
 		for k, v in ipairs (AuraFilter[classFileName][specID][1]) do
-			if v.Spell and v.Aura then
+			if v.Spell and (not v.Spell == "") and (not v.Spell == " ") and v.Aura then
 				local name, rank, icon, castingTime, minRange, maxRange, spellID = GetSpellInfo(v.Spell)
 				--if not a then a = 1 end
 				if GetSpellInfo(name) and a <= 4 then
@@ -120,7 +120,7 @@ L.init_AuraWatch = function(f)
 					f.Icon[a].Tex: SetTexture(F.Media.."Icons\\"..v.Icon)
 					a = a + 1
 				end	
-			elseif v.Spell then
+			elseif v.Spell and (not v.Spell == "") and (not v.Spell == " ") then
 				local name, rank, icon, castingTime, minRange, maxRange, spellID = GetSpellInfo(v.Spell)
 				if GetSpellInfo(name) and a <= 4 then
 					f.Icon[a].SpellID = name
@@ -138,7 +138,7 @@ L.init_AuraWatch = function(f)
 		end
 		--> 2
 		for k, v in ipairs (AuraFilter[classFileName][specID][2]) do
-			if v.Spell and v.Aura then
+			if v.Spell and (not v.Spell == "") and (not v.Spell == " ") and v.Aura then
 				local name, rank, icon, castingTime, minRange, maxRange, spellID = GetSpellInfo(v.Spell)
 				if not b then b = 5 end
 				if GetSpellInfo(name) and b <= 6 then
@@ -149,7 +149,7 @@ L.init_AuraWatch = function(f)
 					b = b + 1
 				end
 				
-			elseif v.Spell then
+			elseif v.Spell and (not v.Spell == "") and (not v.Spell == " ") then
 				local name, rank, icon, castingTime, minRange, maxRange, spellID = GetSpellInfo(v.Spell)
 				if GetSpellInfo(name) and b <= 6 then
 					f.Icon[b].SpellID = v.Spell
@@ -204,6 +204,10 @@ local event_Aura = function(f)
 	local name, rank, icon, count, dispelType, duration, expires, caster, isStealable, shouldConsolidate, spellID
 	for i = 1, #f.Icon do
 		if f.Icon[i].AuraID and f.Icon[i].Unit then
+			f.Icon[i].AuraCount = 0
+			f.Icon[i].Expires = 0
+			f.Icon[i].Duration = 0
+			f.Icon[i].AuraRemain = 0
 			name, rank, icon, count, dispelType, duration, expires, caster, isStealable, shouldConsolidate, spellID = UnitDebuff(f.Icon[i].Unit, f.Icon[i].AuraID, nil, "PLAYER")
 			if name then
 				f.Icon[i].AuraCount = count
@@ -219,7 +223,6 @@ local event_Aura = function(f)
 				f.Icon[i].AuraRemain = max(expires - GetTime(), 0)
 			end
 			name = nil
-			
 		end
 	end
 	--[[

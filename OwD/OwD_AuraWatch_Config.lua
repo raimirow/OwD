@@ -310,7 +310,7 @@ local init_AW_Config = function(f)
 	f.Explain.Text: SetJustifyH("LEFT")
 	f.Explain.Text: SetWidth(320)
 	f.Explain.Text: SetPoint("TOPLEFT", f.Explain, "TOPLEFT", 4,-4)
-	f.Explain.Text: SetText("左键点击上移，右键点击下移，点 X 号删除技能。\n下方输入新技能，点对号添加。")
+	f.Explain.Text: SetText("左键点击上移，右键点击下移，点 X 号删除技能。\n下方输入新技能。一般情况下，只监视Aura要确保Spell栏空着。")
 	
 	
 	f.insert = CreateFrame("Frame", nil, f)

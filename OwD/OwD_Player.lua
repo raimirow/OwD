@@ -1175,9 +1175,40 @@ L.FCS = function(f)
 end
 
 --- ----------------------------------------------------------------------------
+--> DEATHKNIGHT Rune Frame
+--- ----------------------------------------------------------------------------
+local undate_rune = function(f)
+	for i = 1,6 do
+		f[i].start, f[i].duration, f[i].runeReady = GetRuneCooldown(i)
+		--print(i, f[i].start, f[i].duration)
+	end
+end
+
+L.Rune = function(f)
+	f.Rune = CreateFrame("Frame", nil, f)
+	
+	f.Rune:RegisterEvent("PLAYER_ENTERING_WORLD")
+	f.Rune: SetScript("OnEvent", function(self, event)
+		if select(2, UnitClass("player")) == "DEATHKNIGHT" then
+			if event == "PLAYER_ENTERING_WORLD" then
+				self:RegisterEvent("UNIT_ENTERED_VEHICLE")
+				self:RegisterEvent("UNIT_EXITED_VEHICLE")
+				self:RegisterEvent("RUNE_POWER_UPDATE")
+				self:RegisterEvent("RUNE_TYPE_UPDATE")
+				for i = 1,6 do
+					f.Rune[i] = {start = 0, duration = 0, runeReady = 0}
+				end
+				undate_rune(f.Rune)
+			end
+			if event == "RUNE_POWER_UPDATE" or event == "RUNE_TYPE_UPDATE" then
+				undate_rune(f.Rune)
+			end
+		end
+	end)
+end
+--- ----------------------------------------------------------------------------
 --> GCD Frame
 --- ----------------------------------------------------------------------------
-
 L.GCD = function(f)
 	f.GCD = CreateFrame("Frame", nil, f)
 	f.GCD: SetSize(194,206)
