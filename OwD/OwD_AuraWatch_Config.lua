@@ -183,7 +183,7 @@ L.update_Card = function(f)
 			if i <= n1 and (OwD_DB.AuraFilter[classFileName][specID][1][i].Icon) then
 				f.Card[i].Icon: SetTexture(F.Media.."Icons\\"..OwD_DB.AuraFilter[classFileName][specID][1][i].Icon)
 				f.Card[i].Spell: SetText(GetSpellInfo(OwD_DB.AuraFilter[classFileName][specID][1][i].Spell))
-				f.Card[i].Aura: SetText(GetSpellInfo(OwD_DB.AuraFilter[classFileName][specID][1][i].Aura))
+				f.Card[i].Aura: SetText(OwD_DB.AuraFilter[classFileName][specID][1][i].Aura)
 				f.Card[i].Unit: SetText(OwD_DB.AuraFilter[classFileName][specID][1][i].Unit)
 				f.Card[i].Indicator = 1
 				f.Card[i].Indicator1: SetVertexColor(unpack(C.Color.Blue))
@@ -192,7 +192,7 @@ L.update_Card = function(f)
 			elseif i > n1 and i <= n1+n2 and (OwD_DB.AuraFilter[classFileName][specID][2][i-n1].Icon) then
 				f.Card[i].Icon: SetTexture(F.Media.."Icons\\"..OwD_DB.AuraFilter[classFileName][specID][2][i-n1].Icon)
 				f.Card[i].Spell: SetText(GetSpellInfo(OwD_DB.AuraFilter[classFileName][specID][2][i-n1].Spell))
-				f.Card[i].Aura: SetText(GetSpellInfo(OwD_DB.AuraFilter[classFileName][specID][2][i-n1].Aura))
+				f.Card[i].Aura: SetText(OwD_DB.AuraFilter[classFileName][specID][2][i-n1].Aura)
 				f.Card[i].Unit: SetText(OwD_DB.AuraFilter[classFileName][specID][2][i-n1].Unit)
 				f.Card[i].Indicator = 2
 				f.Card[i].Indicator1: SetVertexColor(unpack(C.Color.White2))
@@ -306,7 +306,7 @@ local init_AW_Config = function(f)
 	f.Explain: SetPoint("TOPLEFT", f, "BOTTOMLEFT", 0,-4)
 	create_Backdrop(f.Explain)
 	f.Explain.Line = L.create_Texture(f.Explain, "BORDER", "Bar", f:GetWidth()-4,3, 0,1,0,1, C.Color.White,0.9, "BOTTOM",f.Explain,"BOTTOM",0,2)
-	f.Explain.Text = L.create_Fontstring(f.Explain, C.Font.Name, 12, nil)
+	f.Explain.Text = L.create_Fontstring(f.Explain, C.Font.Name, 10, nil)
 	f.Explain.Text: SetJustifyH("LEFT")
 	f.Explain.Text: SetWidth(320)
 	f.Explain.Text: SetPoint("TOPLEFT", f.Explain, "TOPLEFT", 4,-4)
@@ -425,7 +425,7 @@ local init_AW_Config = function(f)
 		f.insert.Spell.ID = f.insert.Spell:GetText()
 		f.insert.Aura.ID = f.insert.Aura:GetText()
 		if f.insert.Icon.ID and f.insert.Indicator.ID then
-			if f.insert.Spell.ID or (f.insert.Aura.ID and f.insert.Unit.ID) then
+			if ((f.insert.Spell.ID ~= "") and (f.insert.Spell.ID ~= " ")) or (((f.insert.Spell.ID ~= "") or (f.insert.Spell.ID ~= " ")) and f.insert.Aura.ID ~= "" and f.insert.Unit.ID) then
 				local classFileName = select(2, UnitClass("player"))
 				local specID = GetSpecialization()
 				local n1, n2, n3 = 0, 0, 0
@@ -446,7 +446,6 @@ local init_AW_Config = function(f)
 						Icon = f.insert.Icon.ID,
 					}
 				end
-				
 				f.insert.Spell:SetText("")
 				f.insert.Spell:ClearFocus()
 				f.insert.Aura:SetText("")

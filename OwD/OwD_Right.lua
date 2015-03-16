@@ -110,26 +110,26 @@ L.init_AuraWatch = function(f)
 	if classFileName and specID then
 		--> 1
 		for k, v in ipairs (AuraFilter[classFileName][specID][1]) do
-			if v.Spell and (not v.Spell == "") and (not v.Spell == " ") and v.Aura then
+			if (v.Spell and v.Spell ~= "" and v.Spell ~= " ") and (v.Aura and v.Aura ~= "") then
 				local name, rank, icon, castingTime, minRange, maxRange, spellID = GetSpellInfo(v.Spell)
 				--if not a then a = 1 end
 				if GetSpellInfo(name) and a <= 4 then
 					f.Icon[a].SpellID = name
-					f.Icon[a].AuraID = GetSpellInfo(v.Aura)
+					f.Icon[a].AuraID = GetSpellInfo(v.Aura) or v.Aura
 					f.Icon[a].Unit = v.Unit
 					f.Icon[a].Tex: SetTexture(F.Media.."Icons\\"..v.Icon)
 					a = a + 1
 				end	
-			elseif v.Spell and (not v.Spell == "") and (not v.Spell == " ") then
+			elseif v.Spell and v.Spell ~= "" and v.Spell ~= " " then
 				local name, rank, icon, castingTime, minRange, maxRange, spellID = GetSpellInfo(v.Spell)
 				if GetSpellInfo(name) and a <= 4 then
 					f.Icon[a].SpellID = name
 					f.Icon[a].Tex: SetTexture(F.Media.."Icons\\"..v.Icon)
 					a = a + 1
 				end
-			elseif v.Aura then
+			elseif v.Aura and v.Aura ~= "" then
 				if a <= 4 then
-					f.Icon[a].AuraID = GetSpellInfo(v.Aura)
+					f.Icon[a].AuraID = GetSpellInfo(v.Aura) or v.Aura
 					f.Icon[a].Unit = v.Unit
 					f.Icon[a].Tex: SetTexture(F.Media.."Icons\\"..v.Icon)
 					a = a + 1
@@ -138,27 +138,27 @@ L.init_AuraWatch = function(f)
 		end
 		--> 2
 		for k, v in ipairs (AuraFilter[classFileName][specID][2]) do
-			if v.Spell and (not v.Spell == "") and (not v.Spell == " ") and v.Aura then
+			if (v.Spell and v.Spell ~= "" and v.Spell ~= " ") and (v.Aura and v.Aura ~= "") then
 				local name, rank, icon, castingTime, minRange, maxRange, spellID = GetSpellInfo(v.Spell)
 				if not b then b = 5 end
 				if GetSpellInfo(name) and b <= 6 then
 					f.Icon[b].SpellID = name
-					f.Icon[b].AuraID = GetSpellInfo(v.Aura)
+					f.Icon[b].AuraID = GetSpellInfo(v.Aura) or v.Aura
 					f.Icon[b].Unit = v.Unit
 					f.Icon[b].Tex: SetTexture(F.Media.."Icons\\"..v.Icon)
 					b = b + 1
 				end
 				
-			elseif v.Spell and (not v.Spell == "") and (not v.Spell == " ") then
+			elseif v.Spell and v.Spell ~= "" and v.Spell ~= " " then
 				local name, rank, icon, castingTime, minRange, maxRange, spellID = GetSpellInfo(v.Spell)
 				if GetSpellInfo(name) and b <= 6 then
 					f.Icon[b].SpellID = v.Spell
 					f.Icon[b].Tex: SetTexture(F.Media.."Icons\\"..v.Icon)
 					b = b + 1
 				end
-			elseif v.Aura then
+			elseif v.Aura and v.Aura ~= "" then
 				if b <= 6 then
-					f.Icon[b].AuraID = GetSpellInfo(v.Aura)
+					f.Icon[b].AuraID = GetSpellInfo(v.Aura) or v.Aura
 					f.Icon[b].Unit = v.Unit
 					f.Icon[b].Tex: SetTexture(F.Media.."Icons\\"..v.Icon)
 					b = b + 1
@@ -167,7 +167,7 @@ L.init_AuraWatch = function(f)
 		end
 	end
 	
-	if f.Icon[6].AuraID or f.Icon[6].SpellID then
+	if (f.Icon[6].AuraID and f.Icon[6].AuraID ~= "") or (f.Icon[6].SpellID and f.Icon[6].SpellID ~= "") then
 		f.Icon[6]: SetAlpha(1)
 		f.Icon[6]: ClearAllPoints()
 		f.Icon[6]: SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -40,22)
@@ -178,7 +178,7 @@ L.init_AuraWatch = function(f)
 	end
 	
 	for i = 1,5 do
-		if f.Icon[i].AuraID or f.Icon[i].SpellID then
+		if (f.Icon[i].AuraID and f.Icon[i].AuraID ~= "") or (f.Icon[i].SpellID and f.Icon[i].SpellID ~= "") then
 			f.Icon[i]: SetAlpha(1)
 			f.Icon[i]: ClearAllPoints()
 			if i < 4 then
@@ -203,7 +203,7 @@ end
 local event_Aura = function(f)
 	local name, rank, icon, count, dispelType, duration, expires, caster, isStealable, shouldConsolidate, spellID
 	for i = 1, #f.Icon do
-		if f.Icon[i].AuraID and f.Icon[i].Unit then
+		if f.Icon[i].AuraID and f.Icon[i].AuraID ~= "" and f.Icon[i].Unit then
 			f.Icon[i].AuraCount = 0
 			f.Icon[i].Expires = 0
 			f.Icon[i].Duration = 0
@@ -276,7 +276,7 @@ end
 local OnUpdate_Aura = function(f)
 	f:SetScript("OnUpdate", function(self, elapsed)
 		for i =1,#f.Icon do
-			if f.Icon[i].AuraID or f.Icon[i].SpellID then
+			if (f.Icon[i].AuraID and f.Icon[i].AuraID ~= "") and (f.Icon[i].SpellID and f.Icon[i].SpellID ~= "") then
 				f.Icon[i].AuraRemain = max(f.Icon[i].AuraRemain - elapsed, 0)
 				f.Icon[i].SpellRemain = f.Icon[i].CD - (GetTime()-f.Icon[i].Start)
 				f.Icon[i].Bar: SetVertexColor(unpack(C.Color.White))
@@ -292,7 +292,7 @@ local OnUpdate_Aura = function(f)
 					f.Icon[i].Num: Show()
 					f.Icon[i].Tex: Hide()
 					if f.Icon[i].AuraCount and f.Icon[i].AuraCount >= 1 then
-						update_Num(f, i, f.Icon[i].AuraCount, true)
+						update_Num(f, i, f.Icon[i].AuraCount, false)
 					else
 						update_Num(f, i, f.Icon[i].AuraRemain, true)
 					end
@@ -303,7 +303,7 @@ local OnUpdate_Aura = function(f)
 					if UnitAffectingCombat("player") and f.Icon[i].SpellCount and (f.Icon[i].SpellCount >=1) then
 						f.Icon[i].Num: Show()
 						f.Icon[i].Tex: Hide()
-						update_Num(f, i, f.Icon[i].SpellCount, true)
+						update_Num(f, i, f.Icon[i].SpellCount, false)
 					else
 						f.Icon[i].Num: Hide()
 						f.Icon[i].Tex: Show()
@@ -314,21 +314,27 @@ local OnUpdate_Aura = function(f)
 					f.Icon[i].Num: Show()
 					f.Icon[i].Tex: Hide()
 					if f.Icon[i].SpellCount and f.Icon[i].SpellCount >= 1 then
-						update_Num(f, i, f.Icon[i].SpellCount, true)
+						update_Num(f, i, f.Icon[i].SpellCount, false)
 					else
 						update_Num(f, i, f.Icon[i].SpellRemain, true)
 					end
+				else
+					resize_SpellIcon(f, i, 0)
+					f.Icon[i].Bar: SetAlpha(Alp1)
+					f.Icon[i].Num: Hide()
+					f.Icon[i].Tex: Show()
 				end
-			elseif f.Icon[i].SpellID then
+			elseif f.Icon[i].SpellID and f.Icon[i].SpellID ~= "" then
 				f.Icon[i].SpellRemain = f.Icon[i].CD - (GetTime()-f.Icon[i].Start)
 				f.Icon[i].Bar: SetVertexColor(unpack(C.Color.White))
-				if f.Icon[i].CD <= 1.5 then
+				if f.Icon[i].CD <= 2 then
+					f.Icon[i].Bar: SetAlpha(Alp1)
 					resize_SpellIcon(f, i, 0)
-					f.Icon[i].Remain2 = 0
-					if UnitAffectingCombat("player") and (f.Icon[i].SpellCount >=1) then
+					f.Icon[i].SpellRemain = 0
+					if UnitAffectingCombat("player") and f.Icon[i].SpellCount and (f.Icon[i].SpellCount >=1) then
 						f.Icon[i].Num: Show()
 						f.Icon[i].Tex: Hide()
-						update_Num(f, i, f.Icon[i].SpellCount, true)
+						update_Num(f, i, f.Icon[i].SpellCount, false)
 					else
 						f.Icon[i].Num: Hide()
 						f.Icon[i].Tex: Show()
@@ -339,25 +345,39 @@ local OnUpdate_Aura = function(f)
 					f.Icon[i].Num: Show()
 					f.Icon[i].Tex: Hide()
 					if f.Icon[i].SpellCount and f.Icon[i].SpellCount >= 1 then
-						update_Num(f, i, f.Icon[i].SpellCount, true)
+						update_Num(f, i, f.Icon[i].SpellCount, false)
 					else
 						update_Num(f, i, f.Icon[i].SpellRemain, true)
 					end
+				else
+					resize_SpellIcon(f, i, 0)
+					f.Icon[i].Bar: SetAlpha(Alp1)
+					f.Icon[i].Num: Hide()
+					f.Icon[i].Tex: Show()
 				end
-			elseif f.Icon[i].AuraID then
+			elseif f.Icon[i].AuraID  and f.Icon[i].AuraID ~= "" then
 				f.Icon[i].AuraRemain = max(f.Icon[i].AuraRemain - elapsed, 0)
 				f.Icon[i].Bar: SetVertexColor(unpack(C.Color.White))
 				if f.Icon[i].AuraRemain > 0 then
-					f.Icon[i].Bar: SetVertexColor(f.Icon[i].Color[1],f.Icon[i].Color[2],f.Icon[i].Color[3])
+					if f.Icon[i].AuraRemain >= f.Icon[i].Duration/3 then
+						f.Icon[i].Bar: SetVertexColor(unpack(C.Color.Orange))
+					else
+						f.Icon[i].Bar: SetVertexColor(unpack(C.Color.Red))
+					end
 					f.Icon[i].Bar: SetAlpha(Alp1)
 					resize_AuraIcon(f, i, f.Icon[i].AuraRemain/(f.Icon[i].Duration+F.Debug))
 					f.Icon[i].Num: Show()
 					f.Icon[i].Tex: Hide()
 					if f.Icon[i].AuraCount and f.Icon[i].AuraCount >= 1 then
-						update_Num(f, i, f.Icon[i].AuraCount, true)
+						update_Num(f, i, f.Icon[i].AuraCount, false)
 					else
 						update_Num(f, i, f.Icon[i].AuraRemain, true)
 					end
+				else
+					resize_SpellIcon(f, i, 0)
+					f.Icon[i].Bar: SetAlpha(Alp1)
+					f.Icon[i].Num: Hide()
+					f.Icon[i].Tex: Show()
 				end
 			end
 		end
