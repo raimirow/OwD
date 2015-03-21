@@ -19,5 +19,6 @@ OwD_Right.lua
 OwD_AuraWatch_Config.lua
 OwD_Minimap.lua
 OwD_Castbar.lua
+OwD_Aura.lua
 OwD_Config.lua
 OwD_Core.lua

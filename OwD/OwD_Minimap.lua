@@ -192,27 +192,28 @@ local create_Clock = function(f)
 	create_Texture(f.Clock.HL, "Minimap\\Clock_Fill", 67,32, 31/128,98/128,0,1, C.Color.White2,0.7, "BOTTOMRIGHT",f.Clock,"BOTTOMRIGHT",0,0)
 	f.Clock.HL: Hide()
 	
+	f.Clock.Num = {}
 	for i = 1, 7, 1 do
-		f.Clock[i] = f.Clock:CreateTexture(nil, "OVERLAY")
-		f.Clock[i]: SetTexture(F.Media.."Minimap\\Num1")
-		f.Clock[i]: SetSize(Num1[0][1], Num1[0][2])
-		f.Clock[i]: SetTexCoord(Num1[0][3],Num1[0][4], Num1[0][5],Num1[0][6])
-		f.Clock[i]: SetVertexColor(unpack(C.Color.White))
-		f.Clock[i]: SetAlpha(1)
-		--f.Clock[i]: SetPoint(p1,p2,p3,p4,p5)
+		f.Clock.Num[i] = f.Clock:CreateTexture(nil, "OVERLAY")
+		f.Clock.Num[i]: SetTexture(F.Media.."Minimap\\Num1")
+		f.Clock.Num[i]: SetSize(Num1[0][1], Num1[0][2])
+		f.Clock.Num[i]: SetTexCoord(Num1[0][3],Num1[0][4], Num1[0][5],Num1[0][6])
+		f.Clock.Num[i]: SetVertexColor(unpack(C.Color.White))
+		f.Clock.Num[i]: SetAlpha(1)
+		--f.Clock.Num[i]: SetPoint(p1,p2,p3,p4,p5)
 	end
-	f.Clock[3]: SetSize(Num1[":"][1], Num1[":"][2])
-	f.Clock[3]: SetTexCoord(Num1[":"][3],Num1[":"][4], Num1[":"][5],Num1[":"][6])
-	f.Clock[3]: SetPoint("BOTTOM", f.Clock, "BOTTOM", 0,6)
-	f.Clock[4]: SetPoint("BOTTOMLEFT", f.Clock[3], "BOTTOMRIGHT", 1,0)
-	f.Clock[5]: SetPoint("BOTTOMLEFT", f.Clock[4], "BOTTOMRIGHT", 0,0)
-	f.Clock[2]: SetPoint("BOTTOMRIGHT", f.Clock[3], "BOTTOMLEFT", -1,0)
-	f.Clock[1]: SetPoint("BOTTOMRIGHT", f.Clock[2], "BOTTOMLEFT", 0,0)
+	f.Clock.Num[3]: SetSize(Num1[":"][1], Num1[":"][2])
+	f.Clock.Num[3]: SetTexCoord(Num1[":"][3],Num1[":"][4], Num1[":"][5],Num1[":"][6])
+	f.Clock.Num[3]: SetPoint("BOTTOM", f.Clock, "BOTTOM", 0,6)
+	f.Clock.Num[4]: SetPoint("BOTTOMLEFT", f.Clock.Num[3], "BOTTOMRIGHT", 1,0)
+	f.Clock.Num[5]: SetPoint("BOTTOMLEFT", f.Clock.Num[4], "BOTTOMRIGHT", 0,0)
+	f.Clock.Num[2]: SetPoint("BOTTOMRIGHT", f.Clock.Num[3], "BOTTOMLEFT", -1,0)
+	f.Clock.Num[1]: SetPoint("BOTTOMRIGHT", f.Clock.Num[2], "BOTTOMLEFT", 0,0)
 	
-	f.Clock[7]: SetPoint("BOTTOMLEFT", f.Clock[3], "TOP", -1,3)
-	f.Clock[6]: SetPoint("BOTTOMRIGHT", f.Clock[7], "BOTTOMLEFT", 0,0)
-	f.Clock[6]: SetAlpha(0.75)
-	f.Clock[7]: SetAlpha(0.75)
+	f.Clock.Num[7]: SetPoint("BOTTOMLEFT", f.Clock.Num[3], "TOP", -1,3)
+	f.Clock.Num[6]: SetPoint("BOTTOMRIGHT", f.Clock.Num[7], "BOTTOMLEFT", 0,0)
+	f.Clock.Num[6]: SetAlpha(0.75)
+	f.Clock.Num[7]: SetAlpha(0.75)
 	
 	f.Clock: SetScript("OnMouseUp", function(self, button)
 		if button == "LeftButton" then
@@ -225,13 +226,13 @@ local create_Clock = function(f)
 	f.Clock: SetScript("OnEnter", function(self)
 		--f.Clock.HL: Show()
 		for i = 1,5 do
-			f.Clock[i]: SetVertexColor(unpack(C.Color.Yellow))
+			f.Clock.Num[i]: SetVertexColor(unpack(C.Color.Yellow))
 		end
 	end)
 	f.Clock: SetScript("OnLeave", function(self)
 		--f.Clock.HL: Hide()
 		for i = 1,5 do
-			f.Clock[i]: SetVertexColor(unpack(C.Color.White))
+			f.Clock.Num[i]: SetVertexColor(unpack(C.Color.White))
 		end
 	end)
 	end
@@ -461,48 +462,7 @@ end
 --- ----------------------------------------------------------------------------
 --> Minimap     
 --- ----------------------------------------------------------------------------
---[[
-L.OnEvent_Minimap = function(f, event)
-	if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_XP_UPDATE" or event == "PLAYER_LEVEL_UP" then
-		local XP, maxXP = UnitXP("player"), UnitXPMax("player")
-		local restXP = GetXPExhaustion() or 0
-		local d1,d2
-		if maxXP == 0 then
-			d1 = 0
-			d2 = 0
-		else
-			d1 = floor(XP/maxXP*1e3)/1e3
-			d2 = floor(restXP/maxXP*1e3)/1e3
-		end
-		if d2 + d1 >=1 then
-			d2 = 1-d1
-		end
-		
-		f.XP.Bar: SetSize(14,119*d1+F.Debug)
-		f.XP.Bar: SetTexCoord(10/32,24/32,(124-119*d1)/128,124/128)
-		f.XP.exBar: SetSize(14,119*d2+F.Debug)
-		f.XP.exBar: SetTexCoord(10/32,24/32,(124-119*(d2+d1))/128,(124-119*d1)/128)
-		f.XP.exBar: SetPoint("BOTTOM", f.XP, "BOTTOM", 0,d1*119)
-	end
-end
---]]
-L.OnUpdate_Minimap_gap = function(f)
-	if f then
-	local hour,minute = GetGameTime()
-	local h1 = max(floor(hour/10),0)
-	local h2 = max(floor(hour)-h1*10,0)
-	local m1 = max(floor(minute/10),0)
-	local m2 = max(floor(minute)-m1*10,0)
-	
-	f.Clock[1]: SetSize(Num1[h1][1], Num1[h1][2])
-	f.Clock[1]: SetTexCoord(Num1[h1][3],Num1[h1][4], Num1[h1][5],Num1[h1][6])
-	f.Clock[2]: SetSize(Num1[h2][1], Num1[h2][2])
-	f.Clock[2]: SetTexCoord(Num1[h2][3],Num1[h2][4], Num1[h2][5],Num1[h2][6])
-	f.Clock[4]: SetSize(Num1[m1][1], Num1[m1][2])
-	f.Clock[4]: SetTexCoord(Num1[m1][3],Num1[m1][4], Num1[m1][5],Num1[m1][6])
-	f.Clock[5]: SetSize(Num1[m2][1], Num1[m2][2])
-	f.Clock[5]: SetTexCoord(Num1[m2][3],Num1[m2][4], Num1[m2][5],Num1[m2][6])
-	
+local update_Date = function(f)
 	local weekday, month, day, year = CalendarGetDate()
 	local dayColor = {}
 	if weekday == 1 or weekday == 7 then
@@ -513,14 +473,43 @@ L.OnUpdate_Minimap_gap = function(f)
 	
 	local d1 = max(floor(day/10),0)
 	local d2 = max(floor(day)-d1*10,0)
+	--
+	f.Clock.Num[6]: SetSize(Num1[d1][1], Num1[d1][2])
+	f.Clock.Num[6]: SetTexCoord(Num1[d1][3],Num1[d1][4], Num1[d1][5],Num1[d1][6])
+	f.Clock.Num[7]: SetSize(Num1[d2][1], Num1[d2][2])
+	f.Clock.Num[7]: SetTexCoord(Num1[d2][3],Num1[d2][4], Num1[d2][5],Num1[d2][6])
 	
-	f.Clock[6]: SetSize(Num1[d1][1], Num1[d1][2])
-	f.Clock[6]: SetTexCoord(Num1[d1][3],Num1[d1][4], Num1[d1][5],Num1[d1][6])
-	f.Clock[7]: SetSize(Num1[d2][1], Num1[d2][2])
-	f.Clock[7]: SetTexCoord(Num1[d2][3],Num1[d2][4], Num1[d2][5],Num1[d2][6])
+	f.Clock.Num[6]: SetVertexColor(dayColor[1], dayColor[2], dayColor[3])
+	f.Clock.Num[7]: SetVertexColor(dayColor[1], dayColor[2], dayColor[3])
+end
+
+L.OnEvnet_Minimap = function(f, event)
+	if event == "PLAYER_ENTERING_WORLD" then
+		update_Date(f)
+	end
+end
+
+L.OnUpdate_Minimap_gap = function(f)
+	if f then
+	--
+	local hour,minute = GetGameTime()
+	local h1 = max(floor(hour/10),0)
+	local h2 = max(floor(hour)-h1*10,0)
+	local m1 = max(floor(minute/10),0)
+	local m2 = max(floor(minute)-m1*10,0)
+	--
+	f.Clock.Num[1]: SetSize(Num1[h1][1], Num1[h1][2])
+	f.Clock.Num[1]: SetTexCoord(Num1[h1][3],Num1[h1][4], Num1[h1][5],Num1[h1][6])
+	f.Clock.Num[2]: SetSize(Num1[h2][1], Num1[h2][2])
+	f.Clock.Num[2]: SetTexCoord(Num1[h2][3],Num1[h2][4], Num1[h2][5],Num1[h2][6])
+	f.Clock.Num[4]: SetSize(Num1[m1][1], Num1[m1][2])
+	f.Clock.Num[4]: SetTexCoord(Num1[m1][3],Num1[m1][4], Num1[m1][5],Num1[m1][6])
+	f.Clock.Num[5]: SetSize(Num1[m2][1], Num1[m2][2])
+	f.Clock.Num[5]: SetTexCoord(Num1[m2][3],Num1[m2][4], Num1[m2][5],Num1[m2][6])
 	
-	f.Clock[6]: SetVertexColor(dayColor[1], dayColor[2], dayColor[3])
-	f.Clock[7]: SetVertexColor(dayColor[1], dayColor[2], dayColor[3])
+	if hour == 0 and minute == 0 then
+		update_Date(f)
+	end
 	
 	-->Lag and FPS
 	local framerate = floor(GetFramerate())

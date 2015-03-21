@@ -52,6 +52,16 @@ L.TradeSkillFrame = function()
 	end
 	--]]
 end
+
+L.AuraTooltip = function(f)
+	hooksecurefunc(GameTooltip, "SetUnitAura", function(self,...)
+		local id = select(11,UnitAura(...))
+		local caster = select(8,UnitAura(...)) and UnitName(select(8,UnitAura(...)))
+		self:AddLine(id and ' ')
+		self:AddDoubleLine(id, caster)
+		self:Show()
+	end)
+end
 	
 L.create_Ring = function(f, ring, tex1, tex2, tex3, color, alpha)
 	if not alpha then alpha = 1 end

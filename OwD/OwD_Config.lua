@@ -27,14 +27,6 @@ local init_Unit = function(f,unit)
 	RegisterUnitWatch(f)
 end
 
-L.OnEvent_Unit = function(f)
-	
-end
-
-L.OnUpdate_Unit = function(f)
-	
-end
-
 L.create_Unit = function(f)
 	f.PlayerButton = CreateFrame("Button", "OwD.PlayerButton", UIParent, "SecureUnitButtonTemplate")
 	f.PlayerButton: SetSize(98,113)
@@ -285,34 +277,34 @@ local OnShow_Config = function(f)
 	f.Config.Text: SetText("OwD")
 	f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"])
 	for i = 1,4 do
-		f.Config[i].Border: Hide()
+		f.Config.Button[i].Border: Hide()
 	end
 	--> 1
 	if OwD_DB.WTF_AuraWatch then
-		f.Config[1].Border:Show()
+		f.Config.Button[1].Border:Show()
 	else
-		f.Config[1].Border:Hide()
+		f.Config.Button[1].Border:Hide()
 	end
 	
 	--> 2
 	f.MoveFrame:Hide()
-	f.Config[2].Border:Hide()
+	f.Config.Button[2].Border:Hide()
 	--> 4 
 	if OwD_DB.Hide_Blizzard and (not UnitAffectingCombat("player")) then
 		L.Disable_Blizzard()
-		f.Config[4].Border:Hide()
+		f.Config.Button[4].Border:Hide()
 	else
-		f.Config[4].Border:Show()
+		f.Config.Button[4].Border:Show()
 	end
 	--> 5
 	if OwD_DB.Hide_TopBottomBorder then
-		f.Config[5].Border:Hide()
+		f.Config.Button[5].Border:Hide()
 		f.Artwork.Border_Bottom1:Hide()
 		f.Artwork.Border_Bottom2:Hide()
 		f.Artwork.Border_Top1:Hide()
 		f.Artwork.Border_Top2:Hide()
 	else
-		f.Config[5].Border:Show()
+		f.Config.Button[5].Border:Show()
 		f.Artwork.Border_Bottom1:Show()
 		f.Artwork.Border_Bottom2:Show()
 		f.Artwork.Border_Top1:Show()
@@ -340,35 +332,37 @@ L.Config_Frame = function(f)
 	f.Config.exText: SetWidth(220)
 	f.Config.exText: SetPoint("TOPRIGHT",f.Config,"BOTTOMLEFT",0,-12)
 	f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"])
+	f.Config.Button = {}
 	
 	for i = 1,6 do 
-		f.Config[i] = CreateFrame("Button", nil, f.Config)
+		f.Config.Button[i] = CreateFrame("Button", nil, f.Config)
 		if i <= 4 then
-			f.Config[i]: SetSize(60,60)
-			f.Config[i].Bg = L.create_Texture(f.Config[i], "BORDER", "Config\\Hex_Fill", 128,128, 0,1,0,1, C.Color.Black, 0.75, "CENTER",f.Config[i],"CENTER",0,0)
-			f.Config[i].Gs = L.create_Texture(f.Config[i], "BACKGROUND", "Config\\Hex_Gloss", 128,128, 0,1,0,1, C.Color.White, 0.4, "CENTER",f.Config[i],"CENTER",0,0)
-			f.Config[i].Border = L.create_Texture(f.Config[i], "ARTWORK", "Config\\Hex", 128,128, 0,1,0,1, C.Color.Blue, 0.9, "CENTER",f.Config[i],"CENTER",0,0)
-			f.Config[i].Border: Hide()
-			f.Config[i].Text = L.create_Fontstring(f.Config[i], C.Font.Name, 12, nil)
-			f.Config[i].Text: SetPoint("CENTER",f.Config[i],"CENTER",0,0)
-			f.Config[i].Text: SetWidth(64)
+			f.Config.Button[i]: SetSize(60,60)
+			f.Config.Button[i].Bg = L.create_Texture(f.Config.Button[i], "BORDER", "Config\\Hex_Fill", 128,128, 0,1,0,1, C.Color.Black, 0.75, "CENTER",f.Config.Button[i],"CENTER",0,0)
+			f.Config.Button[i].Gs = L.create_Texture(f.Config.Button[i], "BACKGROUND", "Config\\Hex_Gloss", 128,128, 0,1,0,1, C.Color.White, 0.4, "CENTER",f.Config.Button[i],"CENTER",0,0)
+			f.Config.Button[i].Border = L.create_Texture(f.Config.Button[i], "ARTWORK", "Config\\Hex", 128,128, 0,1,0,1, C.Color.Blue, 0.9, "CENTER",f.Config.Button[i],"CENTER",0,0)
+			f.Config.Button[i].Border: Hide()
+			f.Config.Button[i].Text = L.create_Fontstring(f.Config.Button[i], C.Font.Name, 12, nil)
+			f.Config.Button[i].Text: SetPoint("CENTER",f.Config.Button[i],"CENTER",0,0)
+			f.Config.Button[i].Text: SetWidth(64)
 		else
-			f.Config[i]: SetSize(36,36)
-			f.Config[i].Bg = L.create_Texture(f.Config[i], "BORDER", "Config\\Small_Fill", 64,64, 0,1,0,1, C.Color.Black, 0.75, "CENTER",f.Config[i],"CENTER",0,0)
-			f.Config[i].Gs = L.create_Texture(f.Config[i], "BACKGROUND", "Config\\Small_Gloss", 64,64, 0,1,0,1, C.Color.White, 0.4, "CENTER",f.Config[i],"CENTER",0,0)
-			f.Config[i].Border = L.create_Texture(f.Config[i], "ARTWORK", "Config\\Small", 64,64, 0,1,0,1, C.Color.Blue, 0.9, "CENTER",f.Config[i],"CENTER",0,0)
-			f.Config[i].Border: Hide()
-			f.Config[i].Text = L.create_Fontstring(f.Config[i], C.Font.Name, 10, nil)
-			f.Config[i].Text: SetPoint("CENTER",f.Config[i],"CENTER",0,0)
-			f.Config[i].Text: SetWidth(36)
+			f.Config.Button[i]: SetSize(36,36)
+			f.Config.Button[i].Bg = L.create_Texture(f.Config.Button[i], "BORDER", "Config\\Small_Fill", 64,64, 0,1,0,1, C.Color.Black, 0.75, "CENTER",f.Config.Button[i],"CENTER",0,0)
+			f.Config.Button[i].Gs = L.create_Texture(f.Config.Button[i], "BACKGROUND", "Config\\Small_Gloss", 64,64, 0,1,0,1, C.Color.White, 0.4, "CENTER",f.Config.Button[i],"CENTER",0,0)
+			f.Config.Button[i].Border = L.create_Texture(f.Config.Button[i], "ARTWORK", "Config\\Small", 64,64, 0,1,0,1, C.Color.Blue, 0.9, "CENTER",f.Config.Button[i],"CENTER",0,0)
+			f.Config.Button[i].Border: Hide()
+			f.Config.Button[i].Text = L.create_Fontstring(f.Config.Button[i], C.Font.Name, 10, nil)
+			f.Config.Button[i].Text: SetPoint("CENTER",f.Config.Button[i],"CENTER",0,0)
+			f.Config.Button[i].Text: SetWidth(36)
 		end
 	end
-	f.Config[1]: SetPoint("TOPLEFT", f.Config, "RIGHT", 16,-12)
-	f.Config[2]: SetPoint("BOTTOMLEFT", f.Config, "RIGHT", 16,12)
-	f.Config[3]: SetPoint("BOTTOM", f.Config, "TOP", 0,26)
-	f.Config[4]: SetPoint("BOTTOMRIGHT", f.Config, "LEFT", -16,12)
-	f.Config[5]: SetPoint("BOTTOMRIGHT", f.Config, "LEFT", -36,91)
-	f.Config[6]: SetPoint("BOTTOMRIGHT", f.Config, "LEFT", -81,66)
+	
+	f.Config.Button[1]: SetPoint("TOPLEFT", f.Config, "RIGHT", 16,-12)
+	f.Config.Button[2]: SetPoint("BOTTOMLEFT", f.Config, "RIGHT", 16,12)
+	f.Config.Button[3]: SetPoint("BOTTOM", f.Config, "TOP", 0,26)
+	f.Config.Button[4]: SetPoint("BOTTOMRIGHT", f.Config, "LEFT", -16,12)
+	f.Config.Button[5]: SetPoint("BOTTOMRIGHT", f.Config, "LEFT", -36,91)
+	f.Config.Button[6]: SetPoint("BOTTOMRIGHT", f.Config, "LEFT", -81,66)
 	
 	f.Config: SetScript("OnShow", function(self)
 		OnShow_Config(f)
@@ -388,10 +382,10 @@ L.Config_Frame = function(f)
 		end
 	end)
 	
-	f.Config[1].Text: SetText(L.Text["CONFIG_AuraWatch"])
-	f.Config[1]: SetScript("OnEnter", function(self) f.Config.exText: SetText(L.Text["CONFIG_AuraWatch_EXPLAIN"]) end)
-	f.Config[1]: SetScript("OnLeave", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"]) end)
-	f.Config[1]: SetScript("OnMouseDown", function(self, button)
+	f.Config.Button[1].Text: SetText(L.Text["CONFIG_AuraWatch"])
+	f.Config.Button[1]: SetScript("OnEnter", function(self) f.Config.exText: SetText(L.Text["CONFIG_AuraWatch_EXPLAIN"]) end)
+	f.Config.Button[1]: SetScript("OnLeave", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"]) end)
+	f.Config.Button[1]: SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" then
 			if f.AW_Config:IsVisible() then
 				f.AW_Config:Hide()
@@ -401,28 +395,28 @@ L.Config_Frame = function(f)
 		elseif button == "RightButton" then
 			if OwD_DB.WTF_AuraWatch then
 				OwD_DB.WTF_AuraWatch = false
-				f.Config[1].Border:Hide()
+				f.Config.Button[1].Border:Hide()
 				L.init_AuraWatch(f.Right)
 			
 			else
 				OwD_DB.WTF_AuraWatch = true
-				f.Config[1].Border:Show()
+				f.Config.Button[1].Border:Show()
 				L.init_AuraWatch(f.Right)
 			end
 		end
 	end)
 	
-	f.Config[2].Text: SetText(L.Text["CONFIG_MOVEFRAME"])
-	f.Config[2]: SetScript("OnEnter", function(self) f.Config.exText: SetText(L.Text["CONFIG_MOVEFRAME_EXPLAIN"]) end)
-	f.Config[2]: SetScript("OnLeave", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"]) end)
-	f.Config[2]: SetScript("OnMouseDown", function(self, button)
+	f.Config.Button[2].Text: SetText(L.Text["CONFIG_MOVEFRAME"])
+	f.Config.Button[2]: SetScript("OnEnter", function(self) f.Config.exText: SetText(L.Text["CONFIG_MOVEFRAME_EXPLAIN"]) end)
+	f.Config.Button[2]: SetScript("OnLeave", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"]) end)
+	f.Config.Button[2]: SetScript("OnMouseDown", function(self, button)
 		if button == "LeftButton" then
 			if f.MoveFrame:IsShown() then
 				f.MoveFrame:Hide()
-				f.Config[2].Border:Hide()
+				f.Config.Button[2].Border:Hide()
 			else
 				f.MoveFrame:Show()
-				f.Config[2].Border:Show()
+				f.Config.Button[2].Border:Show()
 			end
 		elseif button == "RightButton" then
 			for key, value in pairs(L.DB["Pos"]) do
@@ -439,39 +433,40 @@ L.Config_Frame = function(f)
 		end
 	end)
 	
-	f.Config[4].Text: SetText(L.Text["CONFIG_HIDEBLIZZARD"])
-	f.Config[4]: SetScript("OnEnter", function(self) f.Config.exText: SetText(L.Text["CONFIG_HIDEBLIZZARD_EXPLAIN"]) end)
-	f.Config[4]: SetScript("OnLeave", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"]) end)
-	f.Config[4]: SetScript("OnClick", function(self, button)
+	f.Config.Button[4].Text: SetText(L.Text["CONFIG_HIDEBLIZZARD"])
+	f.Config.Button[4]: SetScript("OnEnter", function(self) f.Config.exText: SetText(L.Text["CONFIG_HIDEBLIZZARD_EXPLAIN"]) end)
+	f.Config.Button[4]: SetScript("OnLeave", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"]) end)
+	f.Config.Button[4]: SetScript("OnClick", function(self, button)
 		if OwD_DB.Hide_Blizzard then
 			OwD_DB.Hide_Blizzard = false
-			f.Config[4].Border:Show()
+			f.Config.Button[4].Border:Show()
 			SlashCmdList.RELOADUI()
 		else
 			OwD_DB.Hide_Blizzard = true
-			f.Config[4].Border:Hide()
+			f.Config.Button[4].Border:Hide()
 			L.Disable_Blizzard()
 		end
 	end)
 	
-	f.Config[5].Text: SetText(L.Text["CONFIG_HIDETOPBOTTOMBORDER"])
-	f.Config[5]: SetScript("OnEnter", function(self) f.Config.exText: SetText(L.Text["CONFIG_HIDETOPBOTTOMBORDER_EXPLAIN"]) end)
-	f.Config[5]: SetScript("OnLeave", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"]) end)
-	f.Config[5]: SetScript("OnMouseDown", function(self, button)
+	f.Config.Button[5].Text: SetText(L.Text["CONFIG_HIDETOPBOTTOMBORDER"])
+	f.Config.Button[5]: SetScript("OnEnter", function(self) f.Config.exText: SetText(L.Text["CONFIG_HIDETOPBOTTOMBORDER_EXPLAIN"]) end)
+	f.Config.Button[5]: SetScript("OnLeave", function(self) f.Config.exText: SetText(L.Text["CONFIG_EXPLAIN"]) end)
+	f.Config.Button[5]: SetScript("OnMouseDown", function(self, button)
 		if OwD_DB.Hide_TopBottomBorder then
 			OwD_DB.Hide_TopBottomBorder = false
-			f.Config[5].Border:Show()
+			f.Config.Button[5].Border:Show()
 			f.Artwork.Border_Bottom1:Show()
 			f.Artwork.Border_Bottom2:Show()
 			f.Artwork.Border_Top1:Show()
 			f.Artwork.Border_Top2:Show()
 		else
 			OwD_DB.Hide_TopBottomBorder = true
-			f.Config[5].Border:Hide()
+			f.Config.Button[5].Border:Hide()
 			f.Artwork.Border_Bottom1:Hide()
 			f.Artwork.Border_Bottom2:Hide()
 			f.Artwork.Border_Top1:Hide()
 			f.Artwork.Border_Top2:Hide()
 		end
 	end)
+	
 end

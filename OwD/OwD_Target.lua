@@ -196,7 +196,7 @@ end
 --- ----------------------------------------------------------------------------
 
 L.Target_Frame = function(f)
-	f.Target = CreateFrame("Frame", nil, f)
+	f.Target = CreateFrame("Frame", "OwD.Target", f)
 	f.Target: SetSize(112,402)
 	f.Target: SetPoint("CENTER", f, "CENTER", 264, 1)
 	f.Target.unit = "target"
@@ -684,6 +684,8 @@ L.OnUpdate_ToT_gap = function(f)
 	update_Health(f, f.unit)
 	update_Power(f, f.unit)
 	if UnitExists(f.unit) then
+		--update_Health(f, f.unit)
+		--update_Power(f, f.unit)
 		local eColor = {}
 		if UnitIsPlayer(f.unit) then
 			local eClass = select(2, UnitClass(f.unit))
@@ -710,7 +712,6 @@ end
 L.OnUpdate_ToT = function(f)
 	if UnitExists(f.unit) then
 		f:Show()
-		
 		L.update_Ring(f.Health, f.Health.Cur*0.049)
 		L.update_Ring(f.Power, f.Power.Cur*0.049)
 	else

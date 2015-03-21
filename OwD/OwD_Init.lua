@@ -72,7 +72,7 @@ C.Color = {
 	["Yellow3"] =		{205/255, 201/255,  125/255},
 	--["Black"] =			{ 35/255,  15/255,  43/255},
 	["Black"] =			{0.09, 0.09, 0.09},
-	["Black2"] =			{ 52/255, 48/255, 78/255},
+	["Black2"] =		{ 52/255, 48/255, 78/255},
 	
 	["Class"] = {
 		["DEATHKNIGHT"] =	{255/255,  49/255,  88/255},		--{247/255,  56/255,  84/255}
@@ -88,7 +88,7 @@ C.Color = {
 		["MONK"] =			{ 96/255, 255/255, 194/255},		--{ 96/255, 255/255, 194/255}
 	},
 	["Power"] = {},
-	{0/255, 246/255, 14/255},
+	--{0/255, 246/255, 14/255},
 }
 
 for power, color in next, PowerBarColor do
@@ -108,9 +108,9 @@ C.Color.Power[8] = C.Color.Power["ECLIPSE"]
 C.Color.Power[9] = C.Color.Power["HOLY_POWER"]
 
 C.Font = {
-	["Name"] = 			"Interface\\Addons\\"..addon.."\\Media\\Fonts\\Hiragino Sans GB W6.ttf",
-	["Num"] =			"Interface\\Addons\\"..addon.."\\Media\\Fonts\\Hiragino Sans GB W6.ttf",
-	["Num2"] =			"Interface\\Addons\\"..addon.."\\Media\\Fonts\\BigNoodleTitling.ttf",
+	["Name"] = 		"Interface\\Addons\\"..addon.."\\Media\\Fonts\\Hiragino Sans GB W6.ttf",
+	["Num"] =		"Interface\\Addons\\"..addon.."\\Media\\Fonts\\Hiragino Sans GB W6.ttf",
+	["Num_Slim"] =	"Interface\\Addons\\"..addon.."\\Media\\Fonts\\BigNoodleTitling.ttf",
 }
 
 --- ----------------------------------------------------------------------------
@@ -139,8 +139,8 @@ else
 	L.Text["CONFIG_EXITE_EXPLAIN"] = "Exit the config frame"
 	L.Text["CONFIG_HIDEBLIZZARD"] = "Blizzard UnitFrames"
 	L.Text["CONFIG_HIDEBLIZZARD_EXPLAIN"] = "Show/Hide Blizzard unitframes (need to reload UI)"
-	L.Text["CONFIG_HIDETOPBOTTOMBORDER"] = "装饰边框"
-	L.Text["CONFIG_HIDETOPBOTTOMBORDER_EXPLAIN"] = "显示/隐藏上下装饰边框"
+	L.Text["CONFIG_HIDETOPBOTTOMBORDER"] = "Border"
+	L.Text["CONFIG_HIDETOPBOTTOMBORDER_EXPLAIN"] = "Show/Hide border"
 	L.Text["CONFIG_HIDEMINIMAP"] = "小地图"
 	L.Text["CONFIG_HIDEMINIMAP_EXPLAIN"] = "隐藏小地图\n(注意：隐藏小地图后打不开设置界面)"
 end

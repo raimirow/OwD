@@ -82,8 +82,7 @@ local onEvent_OwD = function(f)
 		
 		L.OnShow_Castbar(f, event)
 		
-		--L.init_pos_Frame(f, event, arg1)
-		--L.OnEvent_Unit(f, event)
+		L.OnEvnet_Minimap(f.mMap, event)
 	end)
 end
 
@@ -130,10 +129,11 @@ local onUpdate_OwD = function(f)
 			
 			L.OnUpdate_ToT_gap(f.ToT)
 			L.OnUpdate_ToF_gap(f.ToF)
-			--L.OnUpdate_Unit(f)
 			
 			L.OnUpdate_Minimap(f.mMap)
 			L.OnUpdate_Artwork_gap(f)
+			
+			L.OnUpdate_Aura(f, elapsed)
 		end
 		-----------------------
 		
@@ -158,7 +158,7 @@ OwD: SetPoint("CENTER", UIParent, "CENTER", 0,0)
 OwD: SetAlpha(1)
 
 L.Player_Frame(OwD)
-L.FCS(OwD)
+L.FCS_Frame(OwD)
 L.Rune(OwD)
 L.Right(OwD)
 L.GCD(OwD)
@@ -173,7 +173,7 @@ L.create_Icons(OwD.Target)
 L.create_Icons(OwD.Focus)
 
 L.TradeSkillFrame()
---L.Minimap(OwD)
+L.AuraTooltip()
 
 L.XP(OwD)
 L.Artwork(OwD)
@@ -182,6 +182,7 @@ L.Feedback(OwD)
 L.create_Castbar(OwD.Player, OwD.FCS, "player")
 L.create_Castbar(OwD.Target, OwD, "target")
 L.create_Castbar(OwD.Focus, OwD, "focus")
+L.Aura(OwD)
 
 L.create_Unit(OwD)
 

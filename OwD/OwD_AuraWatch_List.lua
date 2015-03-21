@@ -15,7 +15,7 @@ L.AuraFilter = {}
 L.AuraFilter["WARRIOR"] = {
 	[1] = { --武器
 		[1] = {
-			
+			{Spell = "772", Aura = "772", Unit = "target", Icon = "JumpJet"         }, --撕裂
 		},
 		[2] = {
 			

@@ -225,19 +225,6 @@ local event_Aura = function(f)
 			name = nil
 		end
 	end
-	--[[
-	local index =1
-	local n
-	while (index == 1) or n do
-		n = false
-		name, rank, icon, count, dispelType, duration, expires, caster, isStealable, shouldConsolidate, spellID= UnitAura("player", index, "HELPFUL|PLAYER")
-		if name then n = true end
-		if spellID then
-			--print(name, spellID)
-		end
-		index = index + 1
-	end
-	--]]
 end
 
 local event_Spell = function(f)
@@ -281,7 +268,6 @@ local OnUpdate_Aura = function(f)
 				f.Icon[i].SpellRemain = f.Icon[i].CD - (GetTime()-f.Icon[i].Start)
 				f.Icon[i].Bar: SetVertexColor(unpack(C.Color.White))
 				if f.Icon[i].AuraRemain > 0 then
-					--f.Icon[i].Bar: SetVertexColor(f.Icon[i].Color[1],f.Icon[i].Color[2],f.Icon[i].Color[3])
 					if f.Icon[i].AuraRemain >= f.Icon[i].Duration/3 then
 						f.Icon[i].Bar: SetVertexColor(unpack(C.Color.Orange))
 					else

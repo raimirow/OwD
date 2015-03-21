@@ -694,20 +694,21 @@ local create_Pet = function(f)
 	f.Health.Bar = L.create_Texture(f.Health, "ARTWORK", "Pet_Bar", 48,48, 8/64,56/64,8/64,56/64, C.Color.White,0.9, "BOTTOM", f.Health, "BOTTOM", 0,0)
 	
 	for i = 1,4 do
-		f.Health[i] = f.Health:CreateTexture(nil, "ARTWORK")
-		f.Health[i]: SetVertexColor(unpack(C.Color.White))
-		f.Health[i]: SetAlpha(0.9)
-		f.Health[i]: SetTexture(F.Media.."Pet_Num")
-		f.Health[i]: SetSize(Num4[0][1], Num4[0][2])
-		f.Health[i]: SetTexCoord(Num4[0][3],Num4[0][4], Num4[0][5],Num4[0][6])
+		f.Health[i] = CreateFrame("Frame", nil, f.Health)
+		f.Health[i].Tex = f.Health:CreateTexture(nil, "ARTWORK")
+		f.Health[i].Tex: SetVertexColor(unpack(C.Color.White))
+		f.Health[i].Tex: SetAlpha(0.9)
+		f.Health[i].Tex: SetTexture(F.Media.."Pet_Num")
+		f.Health[i].Tex: SetSize(Num4[0][1], Num4[0][2])
+		f.Health[i].Tex: SetTexCoord(Num4[0][3],Num4[0][4], Num4[0][5],Num4[0][6])
 		if i == 1 then
-			f.Health[i]: SetPoint("BOTTOMLEFT", f.Health, "BOTTOMRIGHT", -2,4)
+			f.Health[i].Tex: SetPoint("BOTTOMLEFT", f.Health, "BOTTOMRIGHT", -2,4)
 		else
-			f.Health[i]: SetPoint("BOTTOMLEFT", f.Health[i-1], "BOTTOMRIGHT", -4,0.4)
+			f.Health[i].Tex: SetPoint("BOTTOMLEFT", f.Health[i-1].Tex, "BOTTOMRIGHT", -4,0.4)
 		end
 	end
-	f.Health[1]: SetSize(Num4["*"][1], Num4["*"][2])
-	f.Health[1]: SetTexCoord(Num4["*"][3],Num4["*"][4], Num4["*"][5],Num4["*"][6])
+	f.Health[1].Tex: SetSize(Num4["*"][1], Num4["*"][2])
+	f.Health[1].Tex: SetTexCoord(Num4["*"][3],Num4["*"][4], Num4["*"][5],Num4["*"][6])
 end
 
 L.OnEvent_Pet = function(f, event)
@@ -739,22 +740,22 @@ L.OnUpdate_Pet = function(f)
 		h3 = floor(abs(h*100-floor(h*10)*10))
 		
 		if h1 <= 0 then
-			f.Health[2]: SetAlpha(0.3)
+			f.Health[2].Tex: SetAlpha(0.3)
 			if h2 <=0 then
-				f.Health[3]: SetAlpha(0.3)
+				f.Health[3].Tex: SetAlpha(0.3)
 			else
-				f.Health[3]: SetAlpha(0.9)
+				f.Health[3].Tex: SetAlpha(0.9)
 			end
 		else
-			f.Health[2]: SetAlpha(0.9)
-			f.Health[3]: SetAlpha(0.9)
+			f.Health[2].Tex: SetAlpha(0.9)
+			f.Health[3].Tex: SetAlpha(0.9)
 		end
-		f.Health[2]: SetSize(Num4[h1][1], Num4[h1][2])
-		f.Health[2]: SetTexCoord(Num4[h1][3],Num4[h1][4], Num4[h1][5],Num4[h1][6])
-		f.Health[3]: SetSize(Num4[h2][1], Num4[h2][2])
-		f.Health[3]: SetTexCoord(Num4[h2][3],Num4[h2][4], Num4[h2][5],Num4[h2][6])
-		f.Health[4]: SetSize(Num4[h3][1], Num4[h3][2])
-		f.Health[4]: SetTexCoord(Num4[h3][3],Num4[h3][4], Num4[h3][5],Num4[h3][6])
+		f.Health[2].Tex: SetSize(Num4[h1][1], Num4[h1][2])
+		f.Health[2].Tex: SetTexCoord(Num4[h1][3],Num4[h1][4], Num4[h1][5],Num4[h1][6])
+		f.Health[3].Tex: SetSize(Num4[h2][1], Num4[h2][2])
+		f.Health[3].Tex: SetTexCoord(Num4[h2][3],Num4[h2][4], Num4[h2][5],Num4[h2][6])
+		f.Health[4].Tex: SetSize(Num4[h3][1], Num4[h3][2])
+		f.Health[4].Tex: SetTexCoord(Num4[h3][3],Num4[h3][4], Num4[h3][5],Num4[h3][6])
 	else
 		f:Hide()
 	end
@@ -777,64 +778,64 @@ end
 local update_Point = function(f, pMax, p)
 	p = p or 0
 	for i = 1,6 do
-		f.Point[i]: SetVertexColor(unpack(C.Color.White))
-		f.Point[i]: SetAlpha(1)
+		f.Point[i].Tex: SetVertexColor(unpack(C.Color.White))
+		f.Point[i].Tex: SetAlpha(1)
 		if i <= p then
-			f.Point[i]:Show()
+			f.Point[i].Tex:Show()
 		else
-			f.Point[i]:Hide()
+			f.Point[i].Tex:Hide()
 		end
 	end
 	if pMax == 0 then
 		for i = 1,6 do
-			f.Point[i]: Hide()
+			f.Point[i].Tex: Hide()
 		end
 	elseif pMax == 1 then
-		f.Point[1]: SetTexture(F.Media.."Point_1")
+		f.Point[1].Tex: SetTexture(F.Media.."Point_1")
 	elseif pMax == 2 then
-		f.Point[1]: SetTexture(F.Media.."Point_2_1")
-		f.Point[2]: SetTexture(F.Media.."Point_2_2")
+		f.Point[1].Tex: SetTexture(F.Media.."Point_2_1")
+		f.Point[2].Tex: SetTexture(F.Media.."Point_2_2")
 	elseif pMax == 3 then 
-		f.Point[1]: SetTexture(F.Media.."Point_2_1")
-		f.Point[2]: SetTexture(F.Media.."Point_2_2")
-		f.Point[3]: SetTexture(F.Media.."Point_1")
-		f.Point[3]: SetVertexColor(unpack(C.Color.Red))
+		f.Point[1].Tex: SetTexture(F.Media.."Point_2_1")
+		f.Point[2].Tex: SetTexture(F.Media.."Point_2_2")
+		f.Point[3].Tex: SetTexture(F.Media.."Point_1")
+		f.Point[3].Tex: SetVertexColor(unpack(C.Color.Red))
 		if p > 2 then
-			f.Point[1]: Hide()
-			f.Point[2]: Hide()
+			f.Point[1].Tex: Hide()
+			f.Point[2].Tex: Hide()
 		end
 	elseif pMax == 4 then
-		f.Point[1]: SetTexture(F.Media.."Point_4_1")
-		f.Point[2]: SetTexture(F.Media.."Point_4_2")
-		f.Point[3]: SetTexture(F.Media.."Point_4_3")
-		f.Point[4]: SetTexture(F.Media.."Point_4_4")
+		f.Point[1].Tex: SetTexture(F.Media.."Point_4_1")
+		f.Point[2].Tex: SetTexture(F.Media.."Point_4_2")
+		f.Point[3].Tex: SetTexture(F.Media.."Point_4_3")
+		f.Point[4].Tex: SetTexture(F.Media.."Point_4_4")
 	elseif pMax == 5 then
-		f.Point[1]: SetTexture(F.Media.."Point_4_1")
-		f.Point[2]: SetTexture(F.Media.."Point_4_2")
-		f.Point[3]: SetTexture(F.Media.."Point_4_3")
-		f.Point[4]: SetTexture(F.Media.."Point_4_4")
-		f.Point[5]: SetTexture(F.Media.."Point_1")
-		f.Point[5]: SetVertexColor(unpack(C.Color.Red))
+		f.Point[1].Tex: SetTexture(F.Media.."Point_4_1")
+		f.Point[2].Tex: SetTexture(F.Media.."Point_4_2")
+		f.Point[3].Tex: SetTexture(F.Media.."Point_4_3")
+		f.Point[4].Tex: SetTexture(F.Media.."Point_4_4")
+		f.Point[5].Tex: SetTexture(F.Media.."Point_1")
+		f.Point[5].Tex: SetVertexColor(unpack(C.Color.Red))
 		if p > 4 then
-			f.Point[1]: Hide()
-			f.Point[2]: Hide()
-			f.Point[3]: Hide()
-			f.Point[4]: Hide()
+			f.Point[1].Tex: Hide()
+			f.Point[2].Tex: Hide()
+			f.Point[3].Tex: Hide()
+			f.Point[4].Tex: Hide()
 		end
 	elseif pMax == 6 then
-		f.Point[1]: SetTexture(F.Media.."Point_4_1")
-		f.Point[2]: SetTexture(F.Media.."Point_4_2")
-		f.Point[3]: SetTexture(F.Media.."Point_4_3")
-		f.Point[4]: SetTexture(F.Media.."Point_4_4")
-		f.Point[5]: SetTexture(F.Media.."Point_2_1")
-		f.Point[6]: SetTexture(F.Media.."Point_2_2")
-		f.Point[5]: SetVertexColor(unpack(C.Color.Red))
-		f.Point[6]: SetVertexColor(unpack(C.Color.Red))
+		f.Point[1].Tex: SetTexture(F.Media.."Point_4_1")
+		f.Point[2].Tex: SetTexture(F.Media.."Point_4_2")
+		f.Point[3].Tex: SetTexture(F.Media.."Point_4_3")
+		f.Point[4].Tex: SetTexture(F.Media.."Point_4_4")
+		f.Point[5].Tex: SetTexture(F.Media.."Point_2_1")
+		f.Point[6].Tex: SetTexture(F.Media.."Point_2_2")
+		f.Point[5].Tex: SetVertexColor(unpack(C.Color.Red))
+		f.Point[6].Tex: SetVertexColor(unpack(C.Color.Red))
 		if p > 4 then
-			f.Point[1]: Hide()
-			f.Point[2]: Hide()
-			f.Point[3]: Hide()
-			f.Point[4]: Hide()
+			f.Point[1].Tex: Hide()
+			f.Point[2].Tex: Hide()
+			f.Point[3].Tex: Hide()
+			f.Point[4].Tex: Hide()
 		end
 	end
 end
@@ -861,21 +862,23 @@ local create_Center_PowNum = function(f)
 	f.PowNum: SetPoint("CENTER", f, "CENTER", 0,0)
 	
 	for i = 1,4 do
-		f.PowNum[i] = f.PowNum:CreateTexture(nil, "ARTWORK")
-		f.PowNum[i]: SetTexture(F.Media.."Player_Num3")
-		f.PowNum[i]: SetVertexColor(unpack(C.Color.White))
-		f.PowNum[i]: SetAlpha(0.9)
-		f.PowNum[i]: SetSize(Num3[8][1], Num3[8][2])
-		f.PowNum[i]: SetTexCoord(Num3[8][3],Num3[8][4], Num3[8][5],Num3[8][6])
+		f.PowNum[i] = CreateFrame("Frame", nil, f.PowNum)
+		
+		f.PowNum[i].Tex = f.PowNum[i]:CreateTexture(nil, "ARTWORK")
+		f.PowNum[i].Tex: SetTexture(F.Media.."Player_Num3")
+		f.PowNum[i].Tex: SetVertexColor(unpack(C.Color.White))
+		f.PowNum[i].Tex: SetAlpha(0.9)
+		f.PowNum[i].Tex: SetSize(Num3[8][1], Num3[8][2])
+		f.PowNum[i].Tex: SetTexCoord(Num3[8][3],Num3[8][4], Num3[8][5],Num3[8][6])
 	end
-	f.PowNum[1]: SetPoint("BOTTOMRIGHT", f.PowNum, "BOTTOM", -3,0)
-	f.PowNum[2]: SetPoint("BOTTOMLEFT", f.PowNum, "BOTTOM", -5,0)
-	f.PowNum[3]: SetPoint("BOTTOMLEFT", f.PowNum, "BOTTOM", 10,0)
-	f.PowNum[3]: SetSize(Num3["%"][1], Num3["%"][2])
-	f.PowNum[3]: SetTexCoord(Num3["%"][3],Num3["%"][4], Num3["%"][5],Num3["%"][6])
+	f.PowNum[1].Tex: SetPoint("BOTTOMRIGHT", f.PowNum, "BOTTOM", -3,0)
+	f.PowNum[2].Tex: SetPoint("BOTTOMLEFT", f.PowNum, "BOTTOM", -5,0)
+	f.PowNum[3].Tex: SetPoint("BOTTOMLEFT", f.PowNum, "BOTTOM", 10,0)
+	f.PowNum[3].Tex: SetSize(Num3["%"][1], Num3["%"][2])
+	f.PowNum[3].Tex: SetTexCoord(Num3["%"][3],Num3["%"][4], Num3["%"][5],Num3["%"][6])
 	
-	f.PowNum[4]: SetPoint("BOTTOMLEFT", f, "TOPRIGHT", 20,10)
-	f.PowNum[4]: Hide()
+	f.PowNum[4].Tex: SetPoint("BOTTOMLEFT", f, "TOPRIGHT", 20,10)
+	f.PowNum[4].Tex: Hide()
 end
 
 local create_Point = function(f)
@@ -884,10 +887,12 @@ local create_Point = function(f)
 	f.Point: SetPoint("CENTER", f, "CENTER", 0,0)
 	
 	for i = 1,6 do
-		f.Point[i] = f.Point:CreateTexture(nil, "ARTWORK")
-		f.Point[i]: SetVertexColor(unpack(C.Color.White))
-		f.Point[i]: SetSize(128,128)
-		f.Point[i]: SetPoint("CENTER", f.Point, "CENTER", 0,0)
+		f.Point[i] = CreateFrame("Frame", nil, f.Point)
+		
+		f.Point[i].Tex = f.Point[i]:CreateTexture(nil, "ARTWORK")
+		f.Point[i].Tex: SetVertexColor(unpack(C.Color.White))
+		f.Point[i].Tex: SetSize(128,128)
+		f.Point[i].Tex: SetPoint("CENTER", f.Point, "CENTER", 0,0)
 	end
 	
 	f.Point.Indicator = L.create_Texture(f.Point, "OVERLAY", "Point_Indicator2", 128,128, 0,1,0,1, C.Color.White,1, "CENTER", f.Point, "CENTER", 0,0)
@@ -944,7 +949,7 @@ local create_Point = function(f)
 			update_Point(f, f.Point.pMax, f.Point.combo)
 		else
 			for i = 1,6 do
-				f.Point[i]: Hide()
+				f.Point[i].Tex: Hide()
 			end
 			if f.Point.classFileName == "PALADIN" then-------------------------------------------PALADIN
 				f.Point.p = UnitPower("player", SPELL_POWER_HOLY_POWER)
@@ -958,11 +963,11 @@ local create_Point = function(f)
 				update_Point(f, f.Point.pMax, f.Point.combo)
 				f.Point.p, f.Point.Expires, f.Point.Duration = update_Aura("player", 115189, "HELPFUL")
 				if f.Point.p and f.Point.p > 0 then
-					f.PowNum[4]: SetSize(Num3[f.Point.p][1], Num3[f.Point.p][2])
-					f.PowNum[4]: SetTexCoord(Num3[f.Point.p][3],Num3[f.Point.p][4], Num3[f.Point.p][5],Num3[f.Point.p][6])
-					f.PowNum[4]: Show()
+					f.PowNum[4].Tex: SetSize(Num3[f.Point.p][1], Num3[f.Point.p][2])
+					f.PowNum[4].Tex: SetTexCoord(Num3[f.Point.p][3],Num3[f.Point.p][4], Num3[f.Point.p][5],Num3[f.Point.p][6])
+					f.PowNum[4].Tex: Show()
 				else
-					f.PowNum[4]: Hide()
+					f.PowNum[4].Tex: Hide()
 				end
 			elseif f.Point.classFileName == "PRIEST" then----------------------------------------PRIEST
 				if f.Point.specID == 1 then
@@ -1090,11 +1095,11 @@ L.OnEvent_FCS = function(f, event)
 			p1 = 0
 			p2 = 0
 		end
-		f.PowNum[1]: SetSize(Num3[p1][1], Num3[p1][2])
-		f.PowNum[1]: SetTexCoord(Num3[p1][3],Num3[p1][4], Num3[p1][5],Num3[p1][6])
+		f.PowNum[1].Tex: SetSize(Num3[p1][1], Num3[p1][2])
+		f.PowNum[1].Tex: SetTexCoord(Num3[p1][3],Num3[p1][4], Num3[p1][5],Num3[p1][6])
 		
-		f.PowNum[2]: SetSize(Num3[p2][1], Num3[p2][2])
-		f.PowNum[2]: SetTexCoord(Num3[p2][3],Num3[p2][4], Num3[p2][5],Num3[p2][6])
+		f.PowNum[2].Tex: SetSize(Num3[p2][1], Num3[p2][2])
+		f.PowNum[2].Tex: SetTexCoord(Num3[p2][3],Num3[p2][4], Num3[p2][5],Num3[p2][6])
 	end
 	if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_REGEN_DISABLED" or event == "PLAYER_REGEN_ENABLED" then
 		if UnitAffectingCombat("player") then
@@ -1163,7 +1168,7 @@ L.OnUpdate_FCS = function(f, elapsed)
 	end
 end
 
-L.FCS = function(f)
+L.FCS_Frame = function(f)
 	f.FCS = CreateFrame("Frame", nil, f)
 	f.FCS: SetSize(64,64)
 	--f.FCS: SetPoint("CENTER", f, "CENTER", 0, -250)
@@ -1284,23 +1289,23 @@ L.OnEvent_XP = function(f, event)
 			x4 = floor(XP-floor(XP/10)*10+0.5)
 		
 			if x1 <= 0 then
-				f.XP[9]: SetAlpha(0.3)
+				f.XP.Num[9]: SetAlpha(0.3)
 		
 				if x2 <= 0 then
-					f.XP[8]: SetAlpha(0.3)
+					f.XP.Num[8]: SetAlpha(0.3)
 					if x3 <= 0 then
-						f.XP[7]: SetAlpha(0.3)
+						f.XP.Num[7]: SetAlpha(0.3)
 					else
-						f.XP[7]: SetAlpha(1)
+						f.XP.Num[7]: SetAlpha(1)
 					end
 				else
-					f.XP[8]: SetAlpha(1)
-					f.XP[7]: SetAlpha(1)
+					f.XP.Num[8]: SetAlpha(1)
+					f.XP.Num[7]: SetAlpha(1)
 				end
 			else
-				f.XP[9]: SetAlpha(1)
-				f.XP[8]: SetAlpha(1)
-				f.XP[7]: SetAlpha(1)
+				f.XP.Num[9]: SetAlpha(1)
+				f.XP.Num[8]: SetAlpha(1)
+				f.XP.Num[7]: SetAlpha(1)
 			end
 		
 			f.XP.Dot1: Hide()
@@ -1324,23 +1329,23 @@ L.OnEvent_XP = function(f, event)
 			x5 = max(min(floor(XP*10-floor(XP)*10),9),0)
 			x6 = max(min(floor(XP*100-floor(XP*10)*10),9),0)
 			
-			f.XP[9]: SetAlpha(1)
-			f.XP[8]: SetAlpha(1)
-			f.XP[7]: SetAlpha(1)
+			f.XP.Num[9]: SetAlpha(1)
+			f.XP.Num[8]: SetAlpha(1)
+			f.XP.Num[7]: SetAlpha(1)
 		
 			if x2 <= 0 and x1 <= 0 then
 				x1 = x3
 				x2 = x5
 				x3 = x6
 				f.XP.Dot1: ClearAllPoints()
-				f.XP.Dot1: SetPoint("BOTTOMLEFT", f.XP[9],"BOTTOMRIGHT", -6,-2)
+				f.XP.Dot1: SetPoint("BOTTOMLEFT", f.XP.Num[9],"BOTTOMRIGHT", -6,-2)
 				f.XP.Dot1: Show()
 			elseif x1 <= 0 and x2 > 0 then
 				x1 = x2
 				x2 = x3
 				x3 = x5
 				f.XP.Dot1: ClearAllPoints()
-				f.XP.Dot1: SetPoint("BOTTOMLEFT", f.XP[8],"BOTTOMRIGHT", -6,-2)
+				f.XP.Dot1: SetPoint("BOTTOMLEFT", f.XP.Num[8],"BOTTOMRIGHT", -6,-2)
 				f.XP.Dot1: Show()
 			else
 				f.XP.Dot1: Hide()
@@ -1354,22 +1359,22 @@ L.OnEvent_XP = function(f, event)
 			m4 = max(min(floor(maxXP-floor(maxXP/10)*10+0.5),9),0)
 		
 			if m1 <= 0 then
-				f.XP[4]: SetAlpha(0.3)
+				f.XP.Num[4]: SetAlpha(0.3)
 				if m2 <= 0 then
-					f.XP[3]: SetAlpha(0.3)
+					f.XP.Num[3]: SetAlpha(0.3)
 					if m3 <= 0 then
-						f.XP[2]: SetAlpha(0.3)
+						f.XP.Num[2]: SetAlpha(0.3)
 					else
-						f.XP[2]: SetAlpha(1)
+						f.XP.Num[2]: SetAlpha(1)
 					end
 				else
-					f.XP[3]: SetAlpha(1)
-					f.XP[2]: SetAlpha(1)
+					f.XP.Num[3]: SetAlpha(1)
+					f.XP.Num[2]: SetAlpha(1)
 				end
 			else
-				f.XP[4]: SetAlpha(1)
-				f.XP[3]: SetAlpha(1)
-				f.XP[2]: SetAlpha(1)
+				f.XP.Num[4]: SetAlpha(1)
+				f.XP.Num[3]: SetAlpha(1)
+				f.XP.Num[2]: SetAlpha(1)
 			end
 		
 			f.XP.Dot2: Hide()
@@ -1393,45 +1398,45 @@ L.OnEvent_XP = function(f, event)
 			m5 = floor(maxXP*10-floor(maxXP)*10)
 			m6 = floor(maxXP*100-floor(maxXP*10)*10+0.5)
 		
-			f.XP[4]: SetAlpha(1)
-			f.XP[3]: SetAlpha(1)
-			f.XP[2]: SetAlpha(1)
+			f.XP.Num[4]: SetAlpha(1)
+			f.XP.Num[3]: SetAlpha(1)
+			f.XP.Num[2]: SetAlpha(1)
 		
 			if m2 <= 0 and m1 <= 0 then
 				m1 = m3
 				m2 = m5
 				m3 = m6
 				f.XP.Dot2: ClearAllPoints()
-				f.XP.Dot2: SetPoint("BOTTOMLEFT", f.XP[4],"BOTTOMRIGHT", -6,-2)
+				f.XP.Dot2: SetPoint("BOTTOMLEFT", f.XP.Num[4],"BOTTOMRIGHT", -6,-2)
 				f.XP.Dot2: Show()
 			elseif m1 <= 0 and m2 > 0 then
 				m1 = m2
 				m2 = m3
 				m3 = m5
 				f.XP.Dot2: ClearAllPoints()
-				f.XP.Dot2: SetPoint("BOTTOMLEFT", f.XP[3],"BOTTOMRIGHT", -6,-2)
+				f.XP.Dot2: SetPoint("BOTTOMLEFT", f.XP.Num[3],"BOTTOMRIGHT", -6,-2)
 				f.XP.Dot2: Show()
 			else
 				f.XP.Dot2: Hide()
 			end
 		end
-		f.XP[9]: SetSize(Num5[x1][1],Num5[x1][2])
-		f.XP[9]: SetTexCoord(Num5[x1][3],Num5[x1][4], Num5[x1][5],Num5[x1][6])
-		f.XP[8]: SetSize(Num5[x2][1],Num5[x2][2])
-		f.XP[8]: SetTexCoord(Num5[x2][3],Num5[x2][4], Num5[x2][5],Num5[x2][6])
-		f.XP[7]: SetSize(Num5[x3][1],Num5[x3][2])
-		f.XP[7]: SetTexCoord(Num5[x3][3],Num5[x3][4], Num5[x3][5],Num5[x3][6])
-		f.XP[6]: SetSize(Num5[x4][1],Num5[x4][2])
-		f.XP[6]: SetTexCoord(Num5[x4][3],Num5[x4][4], Num5[x4][5],Num5[x4][6])
+		f.XP.Num[9]: SetSize(Num5[x1][1],Num5[x1][2])
+		f.XP.Num[9]: SetTexCoord(Num5[x1][3],Num5[x1][4], Num5[x1][5],Num5[x1][6])
+		f.XP.Num[8]: SetSize(Num5[x2][1],Num5[x2][2])
+		f.XP.Num[8]: SetTexCoord(Num5[x2][3],Num5[x2][4], Num5[x2][5],Num5[x2][6])
+		f.XP.Num[7]: SetSize(Num5[x3][1],Num5[x3][2])
+		f.XP.Num[7]: SetTexCoord(Num5[x3][3],Num5[x3][4], Num5[x3][5],Num5[x3][6])
+		f.XP.Num[6]: SetSize(Num5[x4][1],Num5[x4][2])
+		f.XP.Num[6]: SetTexCoord(Num5[x4][3],Num5[x4][4], Num5[x4][5],Num5[x4][6])
 	
-		f.XP[4]: SetSize(Num5[m1][1],Num5[m1][2])
-		f.XP[4]: SetTexCoord(Num5[m1][3],Num5[m1][4], Num5[m1][5],Num5[m1][6])
-		f.XP[3]: SetSize(Num5[m2][1],Num5[m2][2])
-		f.XP[3]: SetTexCoord(Num5[m2][3],Num5[m2][4], Num5[m2][5],Num5[m2][6])
-		f.XP[2]: SetSize(Num5[m3][1],Num5[m3][2])
-		f.XP[2]: SetTexCoord(Num5[m3][3],Num5[m3][4], Num5[m3][5],Num5[m3][6])
-		f.XP[1]: SetSize(Num5[m4][1],Num5[m4][2])
-		f.XP[1]: SetTexCoord(Num5[m4][3],Num5[m4][4], Num5[m4][5],Num5[m4][6])
+		f.XP.Num[4]: SetSize(Num5[m1][1],Num5[m1][2])
+		f.XP.Num[4]: SetTexCoord(Num5[m1][3],Num5[m1][4], Num5[m1][5],Num5[m1][6])
+		f.XP.Num[3]: SetSize(Num5[m2][1],Num5[m2][2])
+		f.XP.Num[3]: SetTexCoord(Num5[m2][3],Num5[m2][4], Num5[m2][5],Num5[m2][6])
+		f.XP.Num[2]: SetSize(Num5[m3][1],Num5[m3][2])
+		f.XP.Num[2]: SetTexCoord(Num5[m3][3],Num5[m3][4], Num5[m3][5],Num5[m3][6])
+		f.XP.Num[1]: SetSize(Num5[m4][1],Num5[m4][2])
+		f.XP.Num[1]: SetTexCoord(Num5[m4][3],Num5[m4][4], Num5[m4][5],Num5[m4][6])
 	end
 end
 
@@ -1443,30 +1448,31 @@ L.XP = function(f)
 	f.XP.Bg = L.create_Texture(f.XP, "BACKGROUND", "XP_Bar", 139,18, 59/256,198/256,7/32,25/32, C.Color.White2,0.5, "BOTTOMLEFT", f.XP,"BOTTOMLEFT",0,0)
 	f.XP.Bar = L.create_Texture(f.XP, "ARTWORK", "XP_Bar", 139,18, 59/256,198/256,7/32,25/32, C.Color.White,0.9, "BOTTOMLEFT", f.XP,"BOTTOMLEFT",0,0)
 	
+	f.XP.Num = {}
 	for i = 1,9 do
-		f.XP[i] =  f.XP:CreateTexture(nil, "ARTWORK")
-		f.XP[i]: SetVertexColor(unpack(C.Color.White))
-		f.XP[i]: SetAlpha(1)
-		f.XP[i]: SetTexture(F.Media.."XP_Num")
-		f.XP[i]: SetSize(Num5[0][1], Num5[0][2])
-		f.XP[i]: SetTexCoord(Num5[0][3],Num5[0][4], Num5[0][5],Num5[0][6])
+		f.XP.Num[i] =  f.XP:CreateTexture(nil, "ARTWORK")
+		f.XP.Num[i]: SetVertexColor(unpack(C.Color.White))
+		f.XP.Num[i]: SetAlpha(1)
+		f.XP.Num[i]: SetTexture(F.Media.."XP_Num")
+		f.XP.Num[i]: SetSize(Num5[0][1], Num5[0][2])
+		f.XP.Num[i]: SetTexCoord(Num5[0][3],Num5[0][4], Num5[0][5],Num5[0][6])
 		if i == 1 then
-			f.XP[i]: SetPoint("BOTTOMRIGHT", f.XP, "BOTTOMRIGHT", -4,12)
+			f.XP.Num[i]: SetPoint("BOTTOMRIGHT", f.XP, "BOTTOMRIGHT", -4,12)
 		else
-			f.XP[i]: SetPoint("BOTTOMRIGHT", f.XP[i-1], "BOTTOMLEFT", 3,0.4)
+			f.XP.Num[i]: SetPoint("BOTTOMRIGHT", f.XP.Num[i-1], "BOTTOMLEFT", 3,0.4)
 		end
 	end
-	f.XP[5]: SetSize(Num5["/"][1], Num5["/"][2])
-	f.XP[5]: SetTexCoord(Num5["/"][3],Num5["/"][4], Num5["/"][5],Num5["/"][6])
+	f.XP.Num[5]: SetSize(Num5["/"][1], Num5["/"][2])
+	f.XP.Num[5]: SetTexCoord(Num5["/"][3],Num5["/"][4], Num5["/"][5],Num5["/"][6])
 	
 	f.XP.Dot1 = f.XP:CreateTexture(nil, "ARTWORK")
-	create_Texture(f.XP.Dot1, "XP_Num", Num5["."][1],Num5["."][2], Num5["."][3],Num5["."][4],Num5["."][5],Num5["."][6], C.Color.White,1, "BOTTOMLEFT",f.XP[2],"BOTTOMRIGHT",-6,-2)
+	create_Texture(f.XP.Dot1, "XP_Num", Num5["."][1],Num5["."][2], Num5["."][3],Num5["."][4],Num5["."][5],Num5["."][6], C.Color.White,1, "BOTTOMLEFT",f.XP.Num[2],"BOTTOMRIGHT",-6,-2)
 	
 	f.XP.Dot2 = f.XP:CreateTexture(nil, "ARTWORK")
-	create_Texture(f.XP.Dot2, "XP_Num", Num5["."][1],Num5["."][2], Num5["."][3],Num5["."][4],Num5["."][5],Num5["."][6], C.Color.White,1, "BOTTOMLEFT",f.XP[7],"BOTTOMRIGHT",-6,-2)
+	create_Texture(f.XP.Dot2, "XP_Num", Num5["."][1],Num5["."][2], Num5["."][3],Num5["."][4],Num5["."][5],Num5["."][6], C.Color.White,1, "BOTTOMLEFT",f.XP.Num[7],"BOTTOMRIGHT",-6,-2)
 	
 	--f.XP.XP = f.XP:CreateTexture(nil, "ARTWORK")
-	--create_Texture(f.XP.XP, "XP_Num", Num5["X"][1],Num5["X"][2], Num5["X"][3],Num5["X"][4],Num5["X"][5],Num5["X"][6], C.Color.White,1, "BOTTOMRIGHT",f.XP[9],"BOTTOMLEFT",0,0)
+	--create_Texture(f.XP.XP, "XP_Num", Num5["X"][1],Num5["X"][2], Num5["X"][3],Num5["X"][4],Num5["X"][5],Num5["X"][6], C.Color.White,1, "BOTTOMRIGHT",f.XP.Num[9],"BOTTOMLEFT",0,0)
 end
 
 --[[      
