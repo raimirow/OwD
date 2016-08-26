@@ -73,10 +73,10 @@ local update_Ring = function(f, d)
 end
 
 local format_Num = function(num)
-	if num > 8640 then
-		return floor(num/8640+0.5).."d"
-	elseif num > 360 then
-		return floor(num/360+0.5).."h"
+	if num > 86400 then
+		return floor(num/86400+0.5).."d"
+	elseif num > 3600 then
+		return floor(num/3600+0.5).."h"
 	elseif num > 60 then
 		return floor(num/60+0.5).."m"
 	else
@@ -486,6 +486,7 @@ local Bar1_Frame = function(f)
 	end
 	
 	RegisterStateDriver(f.Bar1, "page", "[overridebar]14;[mod:ctrl]6;[mod:shift]5;[shapeshift]13;[vehicleui]12;[possessbar]12;[bonusbar:5]11;[bonusbar:4]10;[bonusbar:3]9;[bonusbar:2]8;[bonusbar:1]7;[bar:5]5;[bar:4]4;[bar:3]3;[bar:2]2; 1")
+	RegisterStateDriver(f.Bar1, "visibility", "[petbattle]hide; show")
 end
 
 local Bar4_Frame = function(f)
