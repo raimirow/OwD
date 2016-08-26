@@ -31,6 +31,20 @@ end
 SLASH_CALENDAR1 = "/cl"
 SLASH_CALENDAR2 = "/calendar"
 
+SlashCmdList.CLEARFOCUS = ClearFocus
+
+--> OwD Config Frame
+SlashCmdList["OwD"] = function(msg)
+	msg = msg:lower()
+	if msg == "reset" then
+		L.Reset()
+		print("OwD UI has be reset")
+	else
+		if OwD.Config then OwD.Config: Show() end
+	end
+end
+SLASH_OwD1 = "/owd"
+SLASH2 = "/ow"
 
 --- ----------------------------------------------------------------------
 --> Texture
@@ -42,15 +56,10 @@ C.Tex = {
 	["bg"] =				"Interface\\Addons\\"..addon.."\\Media\\Backdrop",
 	["glow"] =				"Interface\\Addons\\"..addon.."\\Media\\glowTex",
 	
-	["Icon_1"] = 			"Interface\\Addons\\"..addon.."\\Media\\Icon_1",
-	["Icon_2"] = 			"Interface\\Addons\\"..addon.."\\Media\\Icon_2",
+	["Icon_1"] = 			"Interface\\Addons\\"..addon.."\\Media\\Icon1",
+	["Icon_2"] = 			"Interface\\Addons\\"..addon.."\\Media\\Icon2",
 	
 	["Button_Hilight"] =	"Interface\\Addons\\"..addon.."\\Media\\ButtonHilight",
-	
-	["Chi"] =				"Interface\\Addons\\"..addon.."\\Media\\Point\\Chi",
-	["Combo"] =				"Interface\\Addons\\"..addon.."\\Media\\Point\\Combo",
-	
-	["Minimap"] =			"Interface\\Addons\\"..addon.."\\Media\\Minimap\\",
 }
 
 C.Color = {
@@ -86,6 +95,7 @@ C.Color = {
 		["WARLOCK"] =		{162/255, 144/255, 255/255},		--{153/255, 120/255, 217/255}
 		["WARRIOR"] =		{242/255, 194/255, 160/255},		--{230/255, 166/255, 115/255}
 		["MONK"] =			{ 96/255, 255/255, 194/255},		--{ 96/255, 255/255, 194/255}
+		["DEMONHUNTER"] = 	{ 0.64, 0.19, 0.79},
 	},
 	["Power"] = {},
 	--{0/255, 246/255, 14/255},
@@ -108,9 +118,9 @@ C.Color.Power[8] = C.Color.Power["ECLIPSE"]
 C.Color.Power[9] = C.Color.Power["HOLY_POWER"]
 
 C.Font = {
-	["Name"] = 		"Interface\\Addons\\"..addon.."\\Media\\Fonts\\Hiragino Sans GB W6.ttf",
-	["Num"] =		"Interface\\Addons\\"..addon.."\\Media\\Fonts\\Hiragino Sans GB W6.ttf",
-	["Num_Slim"] =	"Interface\\Addons\\"..addon.."\\Media\\Fonts\\BigNoodleTitling.ttf",
+	["Name"] = 		"Interface\\Addons\\"..addon.."\\Media\\Fonts\\Txt.ttf",
+	["Num"] =		"Interface\\Addons\\"..addon.."\\Media\\Fonts\\Txt.ttf",
+	["Num_Slim"] =	"Interface\\Addons\\"..addon.."\\Media\\Fonts\\basic05.ttf",
 }
 
 --- ----------------------------------------------------------------------------
@@ -119,30 +129,108 @@ C.Font = {
 
 local locale = GetLocale()
 L.Text = {}
+--locale = "zhTW"
+--locale = "enUS"
 if locale == "zhCN" then
+	L.Text["OwD"] = "OwD"
 	L.Text["CONFIG_EXPLAIN"] = "Overwatch Display"
 	L.Text["CONFIG_MOVEFRAME"] = "移动框体"
-	L.Text["CONFIG_MOVEFRAME_EXPLAIN"] = "左键点击移动框体(拖动蓝色方块来移动框体)\n右键点击还原默认位置"
-	L.Text["CONFIG_EXIT"] = "退出"
+	L.Text["CONFIG_MOVEFRAME_EXPLAIN"] = "左键点击移动框体(拖动红色的圆来移动框体)\n右键点击还原默认位置"
+	L.Text["CONFIG_EXIT"] = "X"
 	L.Text["CONFIG_EXITE_EXPLAIN"] = "退出设置界面"
 	L.Text["CONFIG_HIDEBLIZZARD"] = "暴雪默认头像"
 	L.Text["CONFIG_HIDEBLIZZARD_EXPLAIN"] = "显示/隐藏暴雪默认头像(显示需重载界面)"
 	L.Text["CONFIG_HIDETOPBOTTOMBORDER"] = "上下边框"
 	L.Text["CONFIG_HIDETOPBOTTOMBORDER_EXPLAIN"] = "显示/隐藏上下装饰边框"
 	L.Text["CONFIG_AuraWatch"] = "设置\nAuraWatch"
-	L.Text["CONFIG_AuraWatch_EXPLAIN"] = "左键点击打开AuraWatch设置界面\n右键点击切换使用Lua和系统Aura列表"
+	L.Text["CONFIG_AuraWatch_EXPLAIN"] = "左键点击打开AuraWatch设置界面\n右键点击切换使用Lua和设置Aura列表"
+	L.Text["CONFIG_AuraWatch_INTRODUCE"] = "左键点击上移，右键点击下移，中键显示或隐藏，点 X 号删除技能。\n下方输入新技能。一般情况下，只监视Aura要确保Spell栏空着。"
+	L.Text["CONFIG_OwD_Frames"] = "设置OwD\n框体和组件"
+	L.Text["CONFIG_OwD_Frames_EXPLAIN"] = "点击来设置 OwD框体"
+	L.Text["CONFIG_OwD_RuneBar"] = "符文条"
+	L.Text["CONFIG_OwD_HunterAlone"] = "猎人:独来独往"
+	L.Text["CONFIG_OwD_Minimap"] = "小地图比例"
+	L.Text["CONFIG_OwD_SCALE"] = "OwD 缩放比例"
+	L.Text["CONFIG_OUTCOMBATFADE"] = "脱战后渐隐"
+	L.Text["CONFIG_BUFFFRAME"] = "BuffFrame"
+	L.Text["CONFIG_ACTIONBAR"] = "动作条"
+	
+	L.Text["CONFIG_AURAWATCH_SPELL"] = "技能"
+	L.Text["CONFIG_AURAWATCH_AURA"] = "Buff/Debuff"
+	L.Text["CONFIG_AURAWATCH_UNIT"] = "Unit"
+	L.Text["CONFIG_AURAWATCH_REPLACE"] = "用Lua替换存档设置"
+	L.Text["TARGET_CLASSIFICATION_BOSS"] = "Boss"
+	L.Text["TARGET_CLASSIFICATION_ELITE"] = "精英"
+	L.Text["TARGET_CLASSIFICATION_RARE"] = "稀有"
+	L.Text["TARGET_CLASSIFICATION_RAREELITE"] = "稀有精英"
+	L.Text["TARGET_CLASSIFICATION_WORLDBOSS"] = "WorldBoss"
+	
+elseif locale == "zhTW" then
+	L.Text["OwD"] = "OwD"
+	L.Text["CONFIG_EXPLAIN"] = "Overwatch Display"
+	L.Text["CONFIG_MOVEFRAME"] = "移動介面"
+	L.Text["CONFIG_MOVEFRAME_EXPLAIN"] = "滑鼠左鍵拖曳紅色圓圈來移動介面框架\n滑鼠右鍵點擊還原成預設位置"
+	L.Text["CONFIG_EXIT"] = "X"
+	L.Text["CONFIG_EXITE_EXPLAIN"] = "退出設定介面"
+	L.Text["CONFIG_HIDEBLIZZARD"] = "暴雪預設頭像"
+	L.Text["CONFIG_HIDEBLIZZARD_EXPLAIN"] = "顯示/隱藏遊戲預設的頭像單位框架 (需要重新載入)"
+	L.Text["CONFIG_HIDETOPBOTTOMBORDER"] = "上下邊框"
+	L.Text["CONFIG_HIDETOPBOTTOMBORDER_EXPLAIN"] = "顯示/隱藏上下裝飾邊框"
+	L.Text["CONFIG_AuraWatch"] = "設定光環監控\nAuraWatch"
+	L.Text["CONFIG_AuraWatch_EXPLAIN"] = "滑鼠左鍵點擊開啟 AuraWatch 設定光環監控\n滑鼠右鍵點擊切換使用Lua列表和設定光環列表"
+	L.Text["CONFIG_AuraWatch_INTRODUCE"] = "滑鼠左鍵點擊向上移動，滑鼠右鍵點擊向下移動，點X號刪除技能。\n在下方輸入新技能。一般情況下，只監控光環時，請確定技能名稱輸入欄位保持空白。"
+	L.Text["CONFIG_OwD_Frames"] = "設定 OwD \n介面和小套件"
+	L.Text["CONFIG_OwD_Frames_EXPLAIN"] = "滑鼠左鍵點擊設定OwD介面"
+	L.Text["CONFIG_OwD_RuneBar"] = "符文條"
+	L.Text["CONFIG_OwD_HunterAlone"] = "獵人:單人"
+	L.Text["CONFIG_OwD_Minimap"] = "小地圖縮放"
+	L.Text["CONFIG_OwD_SCALE"] = "OwD整體縮放"
+	L.Text["CONFIG_OUTCOMBATFADE"] = "非戰鬥時淡出"
+	L.Text["CONFIG_BUFFFRAME"] = "BuffFrame"
+	L.Text["CONFIG_ACTIONBAR"] = "動作條"
+	
+	L.Text["CONFIG_AURAWATCH_SPELL"] = "技能"
+	L.Text["CONFIG_AURAWATCH_AURA"] = "光環"
+	L.Text["CONFIG_AURAWATCH_UNIT"] = "對象"
+	L.Text["CONFIG_AURAWATCH_REPLACE"] = "用Lua替換存檔"
+	L.Text["TARGET_CLASSIFICATION_BOSS"] = "首領"
+	L.Text["TARGET_CLASSIFICATION_ELITE"] = "精英"
+	L.Text["TARGET_CLASSIFICATION_RARE"] = "稀有"
+	L.Text["TARGET_CLASSIFICATION_RAREELITE"] = "稀有精英"
+	L.Text["TARGET_CLASSIFICATION_WORLDBOSS"] = "世界首領"
 else
+	L.Text["OwD"] = "OwD"
 	L.Text["CONFIG_EXPLAIN"] = "Overwatch Display"
 	L.Text["CONFIG_MOVEFRAME"] = "Move Frames"
-	L.Text["CONFIG_MOVEFRAME_EXPLAIN"] = "Drag the blue square to move frame"
-	L.Text["CONFIG_EXIT"] = "Exit"
+	L.Text["CONFIG_MOVEFRAME_EXPLAIN"] = "Drag the Red circle to move frame"
+	L.Text["CONFIG_EXIT"] = "X"
 	L.Text["CONFIG_EXITE_EXPLAIN"] = "Exit the config frame"
 	L.Text["CONFIG_HIDEBLIZZARD"] = "Blizzard UnitFrames"
 	L.Text["CONFIG_HIDEBLIZZARD_EXPLAIN"] = "Show/Hide Blizzard unitframes (need to reload UI)"
 	L.Text["CONFIG_HIDETOPBOTTOMBORDER"] = "Border"
 	L.Text["CONFIG_HIDETOPBOTTOMBORDER_EXPLAIN"] = "Show/Hide border"
-	L.Text["CONFIG_HIDEMINIMAP"] = "小地图"
-	L.Text["CONFIG_HIDEMINIMAP_EXPLAIN"] = "隐藏小地图\n(注意：隐藏小地图后打不开设置界面)"
+	L.Text["CONFIG_AuraWatch"] = "Config\nAuraWatch"
+	L.Text["CONFIG_AuraWatch_EXPLAIN"] = "LeftButton click to open AuraWatch Config\nRightButton Click to switch Lua list and Config list"
+	L.Text["CONFIG_AuraWatch_INTRODUCE"] = "Left/Right Click to move up/down, Middle Click to show/hide, click X to delete.\nAdd new ones below. Makesure spell InputBox is empty if watch aura only."
+	L.Text["CONFIG_OwD_Frames"] = "Config OwD Frames and Widget"
+	L.Text["CONFIG_OwD_Frames_EXPLAIN"] = "Click to config OwD Frames"
+	L.Text["CONFIG_OwD_RuneBar"] = "Rune Bar"
+	L.Text["CONFIG_OwD_HunterAlone"] = "Hunter:Alone"
+	L.Text["CONFIG_OwD_Minimap"] = "Minimap scale"
+	L.Text["CONFIG_OwD_SCALE"] = "OwD global scale"
+	L.Text["CONFIG_OUTCOMBATFADE"] = "Fade OutCombat"
+	L.Text["CONFIG_BUFFFRAME"] = "BuffFrame"
+	L.Text["CONFIG_ACTIONBAR"] = "ActionBar"
+	
+	L.Text["CONFIG_AURAWATCH_SPELL"] = "Spell"
+	L.Text["CONFIG_AURAWATCH_AURA"] = "Buff/Debuff"
+	L.Text["CONFIG_AURAWATCH_UNIT"] = "Unit"
+	L.Text["CONFIG_AURAWATCH_REPLACE"] = "Reset aurawatch config"
+	L.Text["TARGET_CLASSIFICATION_BOSS"] = "Boss"
+	L.Text["TARGET_CLASSIFICATION_ELITE"] = "Elite"
+	L.Text["TARGET_CLASSIFICATION_RARE"] = "Rare"
+	L.Text["TARGET_CLASSIFICATION_RAREELITE"] = "RareElite"
+	L.Text["TARGET_CLASSIFICATION_WORLDBOSS"] = "WorldBoss"
 end
 
 --- ----------------------------------------------------------------------
@@ -250,6 +338,8 @@ F.FadeOut = function(f, t, a1, a2)
 	end
 end
 
+F.Void = function() end
+
 --- ----------------------------------------------------------------------
 --> Ring
 --- ----------------------------------------------------------------------
@@ -277,6 +367,7 @@ end
 --]]
 -->>
 F.Ring_Update = function(f, angle)
+	angle = max(min(angle, 90-F.Debug), F.Debug)
     local segmentsize = f.segmentsize
     local outer_radius = f.outer_radius
     local difference = segmentsize-outer_radius

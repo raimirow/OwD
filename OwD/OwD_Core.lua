@@ -1,5 +1,5 @@
 local C, F, L = unpack(select(2, ...))
-local oUF = oUF_Voidiver or oUF
+local oUF = oUF_OwD or oUF
 
 -->>Lua APIs
 local min = math.min
@@ -66,6 +66,7 @@ local event = {
 	"UNIT_THREAT_SITUATION_UPDATE",
 	"UNIT_THREAT_LIST_UPDATE",
 	
+	"UNIT_PET",
 	"PET_UI_CLOSE",
 	"PET_UI_UPDATE",
 }
@@ -74,15 +75,29 @@ local onEvent_OwD = function(f)
 	F.rEvent(f, event)
 	f:SetScript("OnEvent", function(self,event, arg1,arg2,arg2,arg4,arg5)
 		L.OnEvent_Player(f.Player, event)
-		L.OnEvent_Pet(f.Pet, event)
+		L.OnEvent_Pet(f.Pet, event, arg1)
 		L.OnEvent_FCS(f.FCS, event)
 		L.OnEvent_Target(f.Target, event)
 		L.OnEvent_Focus(f.Focus, event)
-		L.OnEvent_XP(f, event)
+		--L.OnEvent_XP(f, event)	
+		L.OnEvent_Minimap(f.mnMap, event)
+		
+		L.onevent_AltPower(f.Player, "player", event)
+		L.onevent_AltPower(f.Target, "target", event)
 		
 		L.OnShow_Castbar(f, event)
 		
-		L.OnEvnet_Minimap(f.mMap, event)
+		if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_REGEN_DISABLED" or event == "PLAYER_REGEN_ENABLED" then
+			L.update_OutCombat_Fade(f)
+		end
+		if event == "PLAYER_ENTERING_WORLD" then
+			f: SetScale(OwD_DB["OwD_Scale"])
+			f.PlayerButton: SetScale(OwD_DB["OwD_Scale"])
+			f.PetButton: SetScale(OwD_DB["OwD_Scale"])
+			f.TargetButton: SetScale(OwD_DB["OwD_Scale"])
+			f.ToTButton: SetScale(OwD_DB["OwD_Scale"])
+			f.ToFButton: SetScale(OwD_DB["OwD_Scale"])
+		end
 	end)
 end
 
@@ -95,32 +110,41 @@ local last1 = 0
 local last2 = 0
 local onUpdate_OwD = function(f)
 	f:SetScript("OnUpdate", function(self,elapsed)
+		--> Player
 		Smooth_Update(f.Player.Health)
-		Smooth_Update(f.Player.Power)
+		L.OnUpdate_Player(f.Player, elapsed)
 		
+		--> FCS
+		Smooth_Update(f.FCS.Power)
+		L.OnUpdate_FCS(f.FCS, elapsed)
+		
+		--> Pet
 		Smooth_Update(f.Pet.Health)
+		Smooth_Update(f.Pet.Power)
+		L.OnUpdate_Pet(f.Pet, elapsed)
 		
+		--> Target
 		Smooth_Update(f.Target.Health)
 		Smooth_Update(f.Target.Power)
+		L.OnUpdate_Target(f.Target, elapsed)
 		
+		--> Target of Target
 		Smooth_Update(f.ToT.Health)
-		Smooth_Update(f.ToT.Power)
+		--Smooth_Update(f.ToT.Power)
+		L.OnUpdate_ToT(f.ToT, elapsed)
 		
+		--> Focus
 		Smooth_Update(f.Focus.Health)
 		Smooth_Update(f.Focus.Power)
+		L.OnUpdate_Focus(f.Focus, elapsed)
 		
+		--> Target of Focus
 		Smooth_Update(f.ToF.Health)
-		Smooth_Update(f.ToF.Power)
+		--Smooth_Update(f.ToF.Power)
+		L.OnUpdate_ToF(f.ToF, elapsed)
 		
-		Smooth_Update(f.FCS.Point.Indicator)
-	
-		L.OnUpdate_Player(f.Player, elapsed)
-		L.OnUpdate_Pet(f.Pet)
-		L.OnUpdate_Target(f.Target)
-		L.OnUpdate_ToT(f.ToT)
-		L.OnUpdate_Focus(f.Focus)
-		L.OnUpdate_ToF(f.ToF)
-		L.OnUpdate_FCS(f.FCS, elapsed)
+		--> Aura
+		L.OnUpdate_Aura(f, elapsed)
 		
 		--> ------------------- for %w+target update
 		last1 = last1 + elapsed
@@ -130,10 +154,10 @@ local onUpdate_OwD = function(f)
 			L.OnUpdate_ToT_gap(f.ToT)
 			L.OnUpdate_ToF_gap(f.ToF)
 			
-			L.OnUpdate_Minimap(f.mMap)
+			L.OnUpdate_Minimap(f.mnMap)
 			L.OnUpdate_Artwork_gap(f)
+			L.OnUpdate_Config_gap(f.Config)
 			
-			L.OnUpdate_Aura(f, elapsed)
 		end
 		-----------------------
 		
@@ -141,8 +165,18 @@ local onUpdate_OwD = function(f)
 		last2 = last2 + elapsed
 		if last2 >= 1 then
 			last2 = 0
-			
-			L.OnUpdate_Minimap_gap(f.mMap)
+			L.OnUpdate_Minimap_gap(f.mnMap)
+			--normalTexture = _G["ActionButton1"]:GetNormalTexture()
+			--print(normalTexture: GetAlpha())
+			--UpdateAddOnMemoryUsage()
+			--UpdateAddOnCPUUsage()
+			--print(GetAddOnMemoryUsage("Vii"), GetAddOnCPUUsage("Vii"))
+			--[[
+			local button = _G["ActionButton1"]
+			start, duration, enable = GetActionCooldown(button.action);
+			charges, maxCharges, chargeStart, chargeDuration = GetActionCharges(button.action)
+			print(button.spellID, start, duration, enable)
+			-]]
 		end
 		-----------------------
 	end)
@@ -151,44 +185,54 @@ end
 --- ----------------------------------------------------------------------
 --> OverWatch Display
 --- ----------------------------------------------------------------------
-
 OwD = CreateFrame("Frame", "OwD", UIParent)
 OwD: SetSize(8,8)
 OwD: SetPoint("CENTER", UIParent, "CENTER", 0,0)
-OwD: SetAlpha(1)
+--OwD: SetAlpha(1)
+OwD: SetScale(OwD_DB["OwD_Scale"])
 
-L.Player_Frame(OwD)
-L.FCS_Frame(OwD)
-L.Rune(OwD)
-L.Right(OwD)
-L.GCD(OwD)
-L.Target_Frame(OwD)
-L.ToT_Frame(OwD)
-L.Focus_Frame(OwD)
-L.ToF_Frame(OwD)
-L.Pet_Frame(OwD)
+L.Init = function()
+	-->
+	L.Player_Frame(OwD)
+	L.FCS_Frame(OwD)
+	L.Right(OwD)
+	--L.GCD(OwD)
+	L.Pet_Frame(OwD)
+	L.Target_Frame(OwD)
+	L.ToT_Frame(OwD)
+	L.Focus_Frame(OwD)
+	L.ToF_Frame(OwD)
 
-L.create_Icons(OwD.Player)
-L.create_Icons(OwD.Target)
-L.create_Icons(OwD.Focus)
+	-->
+	L.Aura(OwD)
+	L.AuraFrame(OwD)
+	L.ActionBar(OwD)
 
-L.TradeSkillFrame()
-L.AuraTooltip()
+	L.create_Castbar(OwD.Player, OwD.FCS, "player")
+	L.create_Castbar(OwD.Target, OwD.Target, "target")
+	L.create_Castbar(OwD.Focus, OwD.Focus, "focus")
 
-L.XP(OwD)
-L.Artwork(OwD)
-L.Feedback(OwD)
+	L.create_AltPower(OwD.Player, "player")
+	L.create_AltPower(OwD.Target, "target")
 
-L.create_Castbar(OwD.Player, OwD.FCS, "player")
-L.create_Castbar(OwD.Target, OwD, "target")
-L.create_Castbar(OwD.Focus, OwD, "focus")
-L.Aura(OwD)
+	--L.create_Icons(OwD.Player)
+	--L.create_Icons(OwD.Target)
+	--L.create_Icons(OwD.Focus)
 
-L.create_Unit(OwD)
+	--> Module
+	--L.M.TradeSkillFrame()
+	--L.M.AuraTooltip()
+	--L.M.DamageFont()
+	--L.M.Hunter_Alone(OwD)
 
-L.Config_Frame(OwD)
-L.Move_Frame(OwD)
-L.AuraWatch_Config(OwD)
+	-->
+	L.Artwork(OwD)
+	L.Feedback(OwD)
+	L.create_Unit(OwD)
+	L.Config_Frame(OwD)
+	L.Move_Frame(OwD)
+	L.AuraWatch_Config(OwD)
 
-onEvent_OwD(OwD)
-onUpdate_OwD(OwD)
+	onEvent_OwD(OwD)
+	onUpdate_OwD(OwD)
+end

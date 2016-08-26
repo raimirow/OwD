@@ -121,19 +121,19 @@ local unpdate_Aura = function(f)
 			f.Aura[i].Icon: SetPoint("CENTER", f.Aura[i], "CENTER", 0,0)
 			
 			f.Aura[i].CD = f.Aura[i]:CreateFontString(nil, "OVERLAY")
-			f.Aura[i].CD: SetFont(C.Font.Num, 12, "OUTLINE")
+			f.Aura[i].CD: SetFont(C.Font.Num, f.font, "THINOUTLINE")--"THINOUTLINE,MONOCHROME"
 			f.Aura[i].CD: SetShadowColor(0,0,0,0.9)
 			f.Aura[i].CD: SetShadowOffset(0,0)
 			f.Aura[i].CD: SetJustifyH("CENTER")
-			f.Aura[i].CD: SetPoint("BOTTOM", f.Aura[i], "BOTTOM", 0,0)
+			f.Aura[i].CD: SetPoint("BOTTOM", f.Aura[i], "BOTTOM", 0,-2)
 			f.Aura[i].CD: SetText(formatTime(54))
 			
 			f.Aura[i].Ct = f.Aura[i]:CreateFontString(nil, "OVERLAY")
-			f.Aura[i].Ct: SetFont(C.Font.Num, 10, "OUTLINE")
+			f.Aura[i].Ct: SetFont(C.Font.Num, f.font, "THINOUTLINE")
 			f.Aura[i].Ct: SetShadowColor(0,0,0,0.9)
 			f.Aura[i].Ct: SetShadowOffset(0,0)
 			f.Aura[i].Ct: SetJustifyH("CENTER")
-			f.Aura[i].Ct: SetPoint("TOPRIGHT", f.Aura[i], "TOPRIGHT", 0,0)
+			f.Aura[i].Ct: SetPoint("TOPRIGHT", f.Aura[i], "TOPRIGHT", 1,2)
 			
 			f.Aura[i].Overlay = f.Aura[i]:CreateTexture(nil, "ARTWORK")
 			
@@ -142,21 +142,27 @@ local unpdate_Aura = function(f)
 		end
 		event_Aura(f.Aura[i], f.unit, i, f.filter)
 		if f.Aura[i].name then
-			if f.Aura[i].count and f.Aura[i].count > 0 then
-				f.Aura[i].Ct: SetText(f.count)
-			else
-				f.Aura[i].Ct: SetText()
+			f.Aura[i].Icon: SetTexture(f.Aura[i].tex)
+			if f.Direction == "RIGHT" then
+				if i == 1 then
+					f.Aura[i]: SetPoint("BOTTOMLEFT",f,"BOTTOMLEFT",3,-3)
+				elseif (i > f.PerLine) and (((i-1)/f.PerLine) == floor((i-1)/f.PerLine)) then
+					f.Aura[i]: SetPoint("BOTTOMLEFT",f[i-f.PerLine],"TOPLEFT",0,6)
+					f: SetHeight((f.size+6)*floor((i-1)/12))
+				else
+					f.Aura[i]: SetPoint("LEFT",f.Aura[i-1],"RIGHT",6,0)
+				end
+			elseif f.Direction == "LEFT" then
+				if i == 1 then
+					f.Aura[i]: SetPoint("BOTTOMRIGHT",f,"BOTTOMRIGHT",3,-3)
+				elseif (i > f.PerLine) and (((i-1)/f.PerLine) == floor((i-1)/f.PerLine)) then
+					f.Aura[i]: SetPoint("BOTTOMRIGHT",f[i-f.PerLine],"TOPRIGHT",0,6)
+					f: SetHeight((f.size+6)*floor((i-1)/12))
+				else
+					f.Aura[i]: SetPoint("RIGHT",f.Aura[i-1],"LEFT",-6,0)
+				end
 			end
 			
-			f.Aura[i].Icon: SetTexture(f.Aura[i].tex)
-			if i == 1 then
-				f.Aura[i]: SetPoint("TOPLEFT",f,"TOPLEFT",3,-3)
-			elseif (i > 6) and (((i-1)/6) == floor((i-1)/6)) then
-				f.Aura[i]: SetPoint("TOPLEFT",f[i-6],"BOTTOMLEFT",0,-6)
-				f: SetHeight((f.size+6)*floor((i-1)/6))
-			else
-				f.Aura[i]: SetPoint("LEFT",f.Aura[i-1],"RIGHT",6,0)
-			end
 			if f.Aura[i].isBoss or f.Aura[i].caster == "player" then
 				f.Aura[i].Icon: SetDesaturated(false)  
 			else
@@ -181,6 +187,11 @@ local OnUpdate_Aura = function(f, elapsed)
 				else
 					f.Aura[i].CD: SetText()
 				end
+				if f.Aura[i].count and f.Aura[i].count > 0 then
+					f.Aura[i].Ct: SetText(f.Aura[i].count)
+				else
+					f.Aura[i].Ct: SetText()
+				end
 			end
 		end
 	end
@@ -188,38 +199,52 @@ end
 
 local create_TargetAura = function(f)
 	f.DeBuff = CreateFrame("Frame", nil, f)
-	f.DeBuff.size = 24
+	f.DeBuff.size = 28
+	f.DeBuff.font = 12
 	f.DeBuff.limit = 12
 	f.DeBuff.unit = "target"
 	f.DeBuff.filter = "HARMFUL"
+	f.DeBuff.Direction = "RIGHT"
+	f.DeBuff.PerLine = 12
 	f.DeBuff: SetSize(f.DeBuff.size+6, f.DeBuff.size+6)
-	f.DeBuff: SetPoint("TOPLEFT", f, "TOPRIGHT", 32,0)	
+	f.DeBuff: SetPoint("BOTTOMLEFT", f, "TOPLEFT", -10,32)	
 	
 	f.Buff = CreateFrame("Frame", nil, f)
-	f.Buff.size = 24
+	f.Buff.size = 28
+	f.Buff.font = 12
 	f.Buff.limit = 12
 	f.Buff.unit = "target"
 	f.Buff.filter = "HELPFUL"
+	f.Buff.Direction = "RIGHT"
+	f.Buff.PerLine = 12
 	f.Buff: SetSize(f.Buff.size+6, f.Buff.size+6)
-	f.Buff: SetPoint("TOPLEFT", f.DeBuff, "BOTTOMLEFT", 0,-12)
+	f.Buff: SetPoint("BOTTOMLEFT", f.DeBuff, "TOPLEFT", 0,2)
+	--f.Buff: SetPoint("BOTTOMLEFT", f.DeBuff, "BOTTOMLEFT", 0,0)
 end
 
 local create_FocusAura = function(f)
 	f.DeBuff = CreateFrame("Frame", nil, f)
 	f.DeBuff.size = 20
+	f.DeBuff.font = 10
 	f.DeBuff.limit = 12
 	f.DeBuff.unit = "focus"
 	f.DeBuff.filter = "HARMFUL"
+	f.DeBuff.Direction = "LEFT"
+	f.DeBuff.PerLine = 12
 	f.DeBuff: SetSize(f.DeBuff.size+6, f.DeBuff.size+6)
-	f.DeBuff: SetPoint("BOTTOMLEFT", f, "TOPLEFT", -8,18)	
+	f.DeBuff: SetPoint("BOTTOMRIGHT", f, "TOPRIGHT", 0,28)	
 	
 	f.Buff = CreateFrame("Frame", nil, f)
 	f.Buff.size = 20
+	f.Buff.font = 10
 	f.Buff.limit = 12
 	f.Buff.unit = "focus"
 	f.Buff.filter = "HELPFUL"
+	f.Buff.Direction = "LEFT"
+	f.Buff.PerLine = 12
 	f.Buff: SetSize(f.Buff.size+6, f.Buff.size+6)
 	f.Buff: SetPoint("BOTTOMLEFT", f.DeBuff, "TOPLEFT", 0,4)
+	--f.Buff: SetPoint("BOTTOMLEFT", f.DeBuff, "BOTTOMLEFT", 0,0)
 end
 
 L.OnUpdate_Aura = function(f, elapsed)

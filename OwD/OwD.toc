@@ -1,24 +1,36 @@
-## Interface: 60100
-## Title: OwD
-## Author: Peizzz
-## Version: 6.1.0
+## Interface: 70000
+## Version: 7.0.6.8
+## Author: Voidiver
+## Title: OwD |cff43aff7UI|r
 ## Notes: OwD UI - Overwatch Display
+## Notes-zhCN: OwD UI 守望先锋风格界面
 
-## SavedVariables:OwD_DB
+## X-Credits: Zork, Tukz, Haste
+
+## SavedVariablesPerCharacter:OwD_DB
 ## X-oUF: oUF_OwD
 
 
 OwD_Init.lua
-OwD_AuraWatch_List.lua
-OwD_InitExtra.lua
+OwD_AuraWatchList.lua
 OwD_Lib.lua
+
+Core\Config.lua
+Core\ConfigFrame.lua
+
 OwD_Player.lua
 OwD_Target.lua
+OwD_DVaTarget.lua
 OwD_Focus.lua
 OwD_Right.lua
-OwD_AuraWatch_Config.lua
+OwD_AuraWatchConfig.lua
+
 OwD_Minimap.lua
 OwD_Castbar.lua
 OwD_Aura.lua
-OwD_Config.lua
+OwD_BuffFrame.lua
+OwD_ActionBar.lua
+
+OwD_Module.lua
+
 OwD_Core.lua
