@@ -621,7 +621,7 @@ L.AuraWatch_Config = function(f)
 	f.AW_Config.Reset.Warn.Yes: SetScript("OnMouseDown", function(self,button)
 		OwD_DB.AuraFilter = nil
 		OwD_DB["AuraFilter"] = {}
-		for k1, v1 in pairs(L.AuraFilter) do
+		for k1, v1 in pairs(C.AuraFilter) do
 			if OwD_DB["AuraFilter"][k1] == nil then
 				OwD_DB["AuraFilter"][k1] = {}
 				if type(v1) == "table" then

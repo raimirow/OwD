@@ -1,5 +1,5 @@
 ## Interface: 70000
-## Version: 7.0.6.8
+## Version: 7.0.6.10
 ## Author: Voidiver
 ## Title: OwD |cff43aff7UI|r
 ## Notes: OwD UI - Overwatch Display
